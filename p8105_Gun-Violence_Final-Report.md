@@ -58,6 +58,8 @@ Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://
 
 Note that these were pulled in three batches because CDC Wonder database puts limits on the number of variables to query at once.
 
+Centers for Disease Control and Prevention, National Center for Health Statistics. Underlying Cause of Death 1999-2016 on CDC WONDER Online Database, released December, 2017. Data are from the Multiple Cause of Death Files, 1999-2016, as compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program.
+
 #### Cleaning
 
 The following steps were used to clean the CDC Firearm data, including adding state abbreviations, and changing `age_groups` into a factor variable.
@@ -163,7 +165,7 @@ Decided to not focus on subtypes of gun violence, including mass shootings versu
 Regression Analyses
 -------------------
 
-### Section 4: Regression Analyses
+Section 4: Regression Analyses
 
 Discussion and Results
 ----------------------
@@ -175,5 +177,68 @@ Discussion and Results
 Map visualizing the change in crude death rate over time (1999-2016) for each state.
 
 ### Section 3: Role of Gun Control in Gun Violence
+
+Section 3 explores the role of gun control in gun violence.
+
+#### Approved license vs. law strength
+
+The first plot show the relationship between the percentage of people get approved for gun licenses, mortality rate and the law strength in each state.
+
+``` r
+gun_control %>% 
+  mutate(text_label = str_c("State:",state,  "\nCrude Rate:", crude_rate)) %>% 
+  plot_ly(x = ~approval_rate, y = ~law_strength, 
+          type = "scatter", mode = "markers", marker = list(size = ~crude_rate),
+          alpha = 0.8, 
+          color = ~law_strength,
+          text = ~ text_label) %>%
+  layout(
+    title = "Approval percentage vs. Law Strength",
+    xaxis = list(title = "Percentage of people approved for guns among total population"), 
+    yaxis = list(title = "Law Strength"),
+    annotations = list(
+      x = 0.0012,
+      y = 55,
+      text = "Size of dots shows crude rate",
+      xref = "x",
+      yref = "y",
+      ax = 0,
+      ay = 0
+))
+```
+
+As we can see in this plot, in different states, the percentage of people get approved for gun licenses is positively connected with law strength. This is intuitive because it's easier to get approved for guns in states with less strict gun laws. Also, with less strict gun laws, states generally have higher mortality rate. An regression model is built to further explain this relationship in model panel.
+
+#### Application for guns vs. law strength
+
+The second plot shows the relationship application percentage (proportion of people applying for the license in total population), mortality rate and the law strength.
+
+``` r
+gun_control %>% 
+  mutate(text_label = str_c("State:",state, '\nCrude Rate: ', crude_rate)) %>% 
+  plot_ly(x = ~application_rate, y = ~law_strength,
+          type = "scatter", mode = "markers", marker = list(size = ~crude_rate),
+          alpha = 0.8, 
+          color = ~law_strength,
+          text = ~ text_label) %>%
+  layout(
+    title = "Application percentage vs. Law Strength",
+    xaxis = list(title = "Percentage of people applied for guns among total population"), 
+    yaxis = list(title = "Law Strength"),
+    annotations = list(
+  x = 0.8,
+  y = 55,
+  text = "Size of dots shows crude rate",
+  xref = "x",
+  yref = "y",
+  ax = 0,
+  ay = 0
+))
+```
+
+As we can see in the plot,
+
+-   In most states, the percentage of people tried to apply for gun licenses is relatively same across the country, no matter how strict the law is. This shows that people in different state share equal passion to apply for guns.
+-   The only exception is Kentucky. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people don't need to license or permit to own guns for private uses. This explains exceptional passion to apply for guns in Kentucky, leading to an exceptional high proportion of application for background checks. The reason that the total proportion is greater than one might be companies applying for background checks for public gun sales.
 
 ### Section 4: Regression Analyses
