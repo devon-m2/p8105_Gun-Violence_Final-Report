@@ -38,7 +38,9 @@ Questions to address in the project include:
 Data Sources and Cleaning Method
 --------------------------------
 
-Source, scraping method, cleaning, etc.
+Data from five sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
+
+The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project).
 
 ### Gun Violence Incident Data (Gun Violence Archive)
 
@@ -50,23 +52,106 @@ The dataset used from
 
 ### CDC Firearm Mortality Data
 
-Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). The interface allows for selection of relevant variables.
+Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). Data was queried on November 13, 2018. Two queries were carried out including the following variables: 1. Firearm mortality: all - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), and `crude_rate` (provided by CDC - crude\_rate = \[n\_deaths/n\_population\]\*100000, and 2. Firearm mortality: By Age groups and Race - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), `race` (race of victim - Black or African American, White, American Indian or Alaska Native, Asian or Pacific Islander),
+
+`hispanic_origin` ()
+
+Note that these were pulled in three batches because CDC Wonder database puts limits on the number of variables to query at once.
 
 #### Cleaning
+
+The following steps were used to clean the CDC Firearm data, including adding state abbreviations, and changing `age_groups` into a factor variable.
+
+``` r
+# Detailed Firearm Mortality Datatsets by Race, Age
+firearm_mortality = read_csv("./data/cdc_firearm_mortality_data.csv", na = "Unreliable") %>% 
+    janitor::clean_names() %>% 
+    select(-ten_year_age_groups_code, -injury_mechanism_all_other_leading_causes_code, -race_code, death_cause= injury_mechanism_all_other_leading_causes) %>% 
+    mutate(ten_year_age_groups = factor(ten_year_age_groups, levels = c("1-4 years", "5-14 years", "15-24 years", "25-34 years", "35-44 years", "45-54 years", "55-64 years", "65-74 years", "75-84 years", "85+ years")))
+
+# Summary Firearm Mortality Dataset by Year
+firearm_mortality_summary = read_excel("./data/cdc_firearm_all_ages.xlsx") %>% 
+    janitor::clean_names() %>% 
+    select(-year_code, -injury_mechanism_all_other_leading_causes_code, death_cause= injury_mechanism_all_other_leading_causes)
+
+# Created table with state name and state abbreviations crosswalk
+st_crosswalk = tibble(state = state.name) %>%
+   bind_cols(tibble(abb = state.abb)) %>% 
+     bind_rows(tibble(state = "District of Columbia", abb = "DC"))
+
+# Joined abbreviation dataset with summary firearm mortality dataset
+clean_firearm_mortality = left_join(firearm_mortality_summary, st_crosswalk, by = "state") %>% 
+    rename(state_abb = abb)
+```
 
 ### Gun Law Strength and State Scoring
 
-Data on
+***Gun law scores of states*** is created by the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings) using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry".
 
 #### Cleaning
 
-***Gun law scores of states*** is created by the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings) using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry".
+The following
 
-### Gun Approval Rate and Liscensing of States
+``` r
+# website URL
+url = "https://lawcenter.giffords.org/scorecard/#rankings"
+gun_climate_url = read_html(url)
 
-### 
+# extract table and clean data
+gun_climate_data = 
+    gun_climate_url %>% 
+  html_nodes(css = "table") %>% 
+  .[[1]] %>% 
+  html_table(header = TRUE) %>% 
+  as.tibble() %>% 
+    janitor::clean_names() %>% 
+    rename(
+        law_strength = gun_law_strength_ranked, 
+        grade_2017 = x2017grade, 
+        death_rate_rank = gun_death_rate_ranked, 
+        death_rate = gun_death_rate_per_100k) %>% 
+    mutate(
+    grade_2017 = factor(grade_2017, 
+                      levels = c("A", "A-", "B+", "B", "C+", "C", "C-", "D", "D-", "F")), 
+    grade_2017 = fct_collapse(grade_2017, 
+                                                        A = c("A", "A-"), 
+                                                        B = c("B+", "B"), 
+                                                        C = c("C+", "C", "C-"), 
+                                                        D = c("D", "D-")), 
+    state_abb = state.abb) %>% 
+        select(-state, -death_rate_rank, -death_rate)
+```
 
-The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project).
+### Gun Approval Rate and Licensing of States
+
+Data on gun license applications was taken from the [The NICS background checks](https://www.statista.com/statistics/249687/number-of-background-checks-done-by-the-nics-in-the-us-by-state/) source, used by Federal Firearms Licensees (FFLs) to instantly determine whether a prospective buyer is eligible to buy firearms or explosives. This data is used to approximate how many people tried to apply for license in each state.
+
+Data on [The number of federal firearms licensees in the U.S.](https://www.statista.com/statistics/215670/number-of-federal-firearms-licensees-in-the-us-by-state/) was downloaded from Statistica.com. This source pulls data from the U.S. Bureau of Alcohol, Tobacco, Firearms and Explosives (ATF), and is used to approximate how many people actually got approved for gun licenses in each state.
+
+#### Cleaning
+
+The following steps were used to clean the gun approval rate and license data, including renaming `state` variable. The approval rate uses the proportion of licensees in the total population of the state to indicate the difficulties in getting apprroved for gun license. The application rate uses the proportion of background checks in the total population of the state to indicate people's willingness in applying for guns. For consistency purposes, District of Columbia was not included.
+
+``` r
+clean_fun = function(address, area){
+  readxl::read_xlsx(address, sheet = "Data", range = area) %>% 
+  rename(state = X__1) %>% 
+  janitor::clean_names()
+}
+
+
+total_pop = clean_fun("./data/population-in-the-states-of-the-us-as-of-2017.xlsx", "B5:C56")
+
+approved_lic = clean_fun("./data/number-of-federal-firearms-licensees-in-the-us-in-2017-by-state.xlsx", "B5:C57") %>% 
+  filter(state != "Other Territories")
+
+back_check = clean_fun("./data/nics-background-checks-done-by-us-firearms-licensees-2017-by-state.xlsx", "B5:C56")
+
+gun_lic = inner_join(approved_lic, back_check, by = "state") %>% 
+  inner_join(total_pop, by = "state") %>% 
+  mutate(approval_rate = number_of_federal_firearms_licensees/number_of_residents_in_millions/1000000,
+         application_rate = number_of_background_checks/number_of_residents_in_millions/1000000)
+```
 
 Exploratory Analyses
 --------------------
