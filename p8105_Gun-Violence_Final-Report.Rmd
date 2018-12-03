@@ -10,22 +10,34 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Motivation
-Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence rates. The target audiences of this webpage include the general public, gun violence activists and legislators. We hope this resource raises awareness on the widespread impact of gun violence, and informs future public health interventions and policy changes. 
+Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. This goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes. 
 
 ## Related Work
-Inspiration was drawn from 
+Gun violence has received widespread media attention in recent years, particularly due to the increased occurrence of mass shootings. 
+
+Inspiration was drawn from  
 
 
-This project uses Data Science skills from throughout the semester. In particular, inspiration on some of the map visualizations was drawn from the in-class visualizations on the Airbnb dataset. 
+Additional background resources reviewed: 
+
+*  [Gun Violence Archive](https://www.gunviolencearchive.org/), a nonprofit focused on providing data on gun related incidents in the U.S., which provides helpful visuals related to gun violence incidents across the country.
+*  [Wintemute, G. J. (2015). The epidemiology of firearm violence in the twenty-first century United States. Annual Review of Public Health, 36, 5-19.](https://www.annualreviews.org/doi/full/10.1146/annurev-publhealth-031914-122535)
+*  [Gun Violence - National Institute for Justice](https://www.nij.gov/topics/crime/gun-violence/pages/welcome.aspx) 
+*  [Giffords Law Center](https://lawcenter.giffords.org)
+
+
+The Data Science methods used for this project draw from topics covered throughout P8105. In particular, inspiration on some of the map visualizations was drawn from the in-class visualizations on the Airbnb dataset. Further, as a team comprised of biostatisticians, epidemiologists and environmental health scientists in training, we were able to draw from _____. 
 
 ## Initial Questions
-Questions we hope to answer include:
+Questions to address in the project include:
 
 *  How do rates of gun violence differ across states? Which areas have the highest concentrations of gun violence? 
 *  How have gun violence rates changed over time? 
 *  Which age groups and races are most impacted by gun violence mortality, and has this changed over time? 
-*  How does gun law strength relate to gun violence mortality? 
-*  
+*  How does gun law strength relate to firearm mortality? How do gun law strengths differ across the U.S.?
+*  How are unemployment rates related to firearm mortality? 
+*  How are gun license approval rates related to firearm mortality and law strength? 
+*  How does the gun application percentage(proportion of people applying for the license in total population) relate to firearm mortality and law strength? 
 
 ## Data Sources and Cleaning Method
 Source, scraping method, cleaning, etc.
@@ -66,7 +78,8 @@ The Github repository for this project can be found [here](https://github.com/Ch
 
 Decided to use the data on firearm mortality from the CDC. 
 
-Decided to not focus on mass shootings, but gun violence in general
+Decided to not focus on subtypes of gun violence, including mass shootings versus domestic violence, but gun violence in general. We acknowledge that risk factors could differ across sub-types. Important to consider in the future -- 
+overall 
  
 
 ## Regression Analyses 
