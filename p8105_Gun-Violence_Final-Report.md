@@ -38,7 +38,7 @@ Questions to address in the project include:
 Data Sources and Cleaning Method
 --------------------------------
 
-Data from four sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
+Data from five sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
 
 The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project).
 
@@ -92,7 +92,7 @@ clean_firearm_mortality = left_join(firearm_mortality_summary, st_crosswalk, by 
 
 #### Cleaning
 
-The following
+The following\_\_\_\_\_\_\_\_\_\_\_\_
 
 ``` r
 # website URL
@@ -155,6 +155,10 @@ gun_lic = inner_join(approved_lic, back_check, by = "state") %>%
          application_rate = number_of_background_checks/number_of_residents_in_millions/1000000)
 ```
 
+### Dataset 5: Unemployment data
+
+#### Cleaning
+
 Exploratory Analyses
 --------------------
 
@@ -174,7 +178,15 @@ Discussion and Results
 
 ### Section 2: Exploration of Firearm Mortality in United States
 
-Map visualizing the change in crude death rate over time (1999-2016) for each state.
+Section 2 explores changes in the crude firearm mortality, law strength and unemployment rates across the United States over time. This section is housed in a Shiny dashboard to enable users to toggle between different variables and years. This section pulls data from the **Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, and **Dataset 5: Unemployment data** sources.
+
+#### Map visualizing the change in crude death rate over time (1999-2016) for each state
+
+-   Crude death rate (CDC data), unemployment, law strength
+
+#### Breakdown of crude death rate over time (1999-2016) by race and age group
+
+#### Breakdown of crude death rate over time (1999-2016) by hispanic origin and age group
 
 ### Section 3: Role of Gun Control
 
@@ -242,3 +254,6 @@ As we can see in the plot,
 -   The only exception is Kentucky. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people don't need to license or permit to own guns for private uses. This explains exceptional passion to apply for guns in Kentucky, leading to an exceptional high proportion of application for background checks. The reason that the total proportion is greater than one might be companies applying for background checks for public gun sales.
 
 ### Section 4: Regression Analyses
+
+Conclusion
+----------
