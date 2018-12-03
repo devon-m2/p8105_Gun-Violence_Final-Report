@@ -6,23 +6,21 @@ Yuelin Long (yl3181), Marisa Sobel (ms5533), Eileen Shea (eas2297), Zanis Fang (
 Motivation
 ----------
 
-Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. We hope this resource raises awareness on the widespread impact of gun violence, and informs future public health interventions and policy changes.
+Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. This goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes.
 
 Related Work
 ------------
 
-Gun violence has received widespread media attention in recent years due to the increasing
+Gun violence has received widespread media attention in recent years, particularly due to the increased occurrence of mass shootings. Preventing firearm injury and death has increasingly been considered a major public health issue.
 
-Inspiration was drawn from
-
-Additional background resources reviewed:
+Inspiration was drawn from a variety of background sources including:
 
 -   [Gun Violence Archive](https://www.gunviolencearchive.org/), a nonprofit focused on providing data on gun related incidents in the U.S., which provides helpful visuals related to gun violence incidents across the country.
 -   [Wintemute, G. J. (2015). The epidemiology of firearm violence in the twenty-first century United States. Annual Review of Public Health, 36, 5-19.](https://www.annualreviews.org/doi/full/10.1146/annurev-publhealth-031914-122535)
 -   [Gun Violence - National Institute for Justice](https://www.nij.gov/topics/crime/gun-violence/pages/welcome.aspx)
 -   [Giffords Law Center](https://lawcenter.giffords.org)
 
-The Data Science methods used for this project draw from topics covered throughout P8105. In particular, inspiration on some of the map visualizations was drawn from the in-class visualizations on the Airbnb dataset.
+The Data Science methods used for this project draw from topics covered throughout P8105. In particular, inspiration on some of the map visualizations was drawn from the in-class visualizations on the Airbnb dataset. Further, as a team comprised of biostatisticians, epidemiologists and environmental health scientists in training, we successfully drew from different areas of expertise to inform the direction of the project.
 
 Initial Questions
 -----------------
