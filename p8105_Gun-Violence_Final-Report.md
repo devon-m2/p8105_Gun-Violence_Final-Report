@@ -38,11 +38,11 @@ Questions to address in the project include:
 Data Sources and Cleaning Method
 --------------------------------
 
-Data from five sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
+Data from four sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
 
 The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project).
 
-### Gun Violence Incident Data (Gun Violence Archive)
+### Dataset 1: Gun Violence Incident Data (Gun Violence Archive)
 
 Data on specific Gun Violence incidents throughout the U.S. was downloaded from a data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/), a "online archive of gun violence incidents collected from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization."
 
@@ -50,7 +50,7 @@ The dataset used from
 
 #### Cleaning
 
-### CDC Firearm Mortality Data
+### Dataset 2: CDC Firearm Mortality Data
 
 Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). Data was queried on November 13, 2018. Two queries were carried out including the following variables: 1. Firearm mortality: all - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), and `crude_rate` (provided by CDC - crude\_rate = \[n\_deaths/n\_population\]\*100000, and 2. Firearm mortality: By Age groups and Race - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), `race` (race of victim - Black or African American, White, American Indian or Alaska Native, Asian or Pacific Islander),
 
@@ -86,7 +86,7 @@ clean_firearm_mortality = left_join(firearm_mortality_summary, st_crosswalk, by 
     rename(state_abb = abb)
 ```
 
-### Gun Law Strength and State Scoring
+### Dataset 3: Gun Law Strength and State Scoring
 
 ***Gun law scores of states*** is created by the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings) using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry".
 
@@ -124,7 +124,7 @@ gun_climate_data =
         select(-state, -death_rate_rank, -death_rate)
 ```
 
-### Gun Approval Rate and Licensing of States
+### Dataset 4: Gun Approval Rate and Licensing of States
 
 Data on gun license applications was taken from the [The NICS background checks](https://www.statista.com/statistics/249687/number-of-background-checks-done-by-the-nics-in-the-us-by-state/) source, used by Federal Firearms Licensees (FFLs) to instantly determine whether a prospective buyer is eligible to buy firearms or explosives. This data is used to approximate how many people tried to apply for license in each state.
 
@@ -176,9 +176,9 @@ Discussion and Results
 
 Map visualizing the change in crude death rate over time (1999-2016) for each state.
 
-### Section 3: Role of Gun Control in Gun Violence
+### Section 3: Role of Gun Control
 
-Section 3 explores the role of gun control in gun violence.
+Section 3 explores the role of gun control in gun violence, pulling data from the **Dataset 4: Gun Approval Rate and Licensing of States**, **Dataset 3: Gun Law Strength and State Scoring**, and **Dataset 2: CDC Firearm Mortality Data** sources.
 
 #### Approved license vs. law strength
 
