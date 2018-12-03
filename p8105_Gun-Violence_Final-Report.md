@@ -1,32 +1,85 @@
-p8105\_Gun-Violence\_Final-Report
+Exploring Gun Violence Trends in the United States
 ================
 Yuelin Long (yl3181), Marisa Sobel (ms5533), Eileen Shea (eas2297), Zanis Fang (zf2213), Devon Morgan (dm3175)
 12/3/2018
 
-Exploring Gun Violence Trends in the United States
-==================================================
-
 Motivation
 ----------
 
-Gun violence is of increasing concern for the US population over the last few years, and we are interested in looking at what might be associated with increased gun violence.
+Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence rates. The target audiences of this webpage include the general public, gun violence activists and legislators. We hope this resource raises awareness on the widespread impact of gun violence, and informs future public health interventions and policy changes.
 
 Related Work
 ------------
 
+Inspiration was drawn from
+
+This project uses Data Science skills from throughout the semester. In particular, inspiration on some of the map visualizations was drawn from the in-class visualizations on the Airbnb dataset.
+
 Initial Questions
 -----------------
 
-Data - Source, scraping method, cleaning, etc.
-----------------------------------------------
+Questions we hope to answer include:
+
+-   How do rates of gun violence differ across states? Which areas have the highest concentrations of gun violence?
+-   How have gun violence rates changed over time?
+-   Which age groups and races are most impacted by gun violence mortality, and has this changed over time?
+-   How does gun law strength relate to gun violence mortality?
+-   
+
+Data Sources and Cleaning Method
+--------------------------------
+
+Source, scraping method, cleaning, etc.
+
+### Gun Violence Incident Data (Gun Violence Archive)
+
+Data on specific Gun Violence incidents throughout the U.S. was downloaded from a data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/), a "online archive of gun violence incidents collected from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization."
+
+The dataset used from
+
+#### Cleaning
+
+### CDC Firearm Mortality Data
+
+Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). The interface allows for selection of relevant variables.
+
+#### Cleaning
+
+### Gun Law Strength and State Scoring
+
+Data on
+
+#### Cleaning
+
+***Gun law scores of states*** is created by the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings) using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry".
+
+### Gun Approval Rate and Liscensing of States
 
 ### 
+
+The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project).
 
 Exploratory Analyses
 --------------------
 
-Additional Analyses
+Decided to use the data on firearm mortality from the CDC.
+
+Decided to not focus on mass shootings, but gun violence in general
+
+Regression Analyses
 -------------------
+
+### Section 4: Regression Analyses
 
 Discussion
 ----------
+
+### Section 1: Overview of Gun Violence in United States
+
+### Section 2: Exploration of Firearm Mortality in United States
+
+Map visualizing the change in crude death rate over time (1999-2016) for each state.
+
+### Section 3: Role of Gun Control in Gun Violence
+
+### Section 4: Regression Analyses
