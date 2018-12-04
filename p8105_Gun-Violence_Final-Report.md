@@ -48,11 +48,23 @@ Data from five sources were considered for this project. The data sources, scrap
 
 ### Dataset 1: Gun Violence Incident Data (Gun Violence Archive)
 
-Data on specific Gun Violence incidents throughout the U.S. was downloaded from a data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/), a "online archive of gun violence incidents collected from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization."
-
-The dataset used from
+Data on specific Gun Violence incidents throughout the U.S. was downloaded from a Kaggle data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/). Gun Violence Archive is a non-profit formed in 2013 to provide free online public access to accurate information about gun-related violence in the United States. The archive collects information in incidents "from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization." The dataset accessed from Kaggle scraped and partially tided the data from Gun Violence Archive.
 
 #### Cleaning
+
+Data cleaning steps included making individual variables for day, month, and year and creating new variables for the number affected in a given gun violence incident (`n_affected`) and that classify mass shooting status (`mass_shooting`).
+
+``` r
+gun_violence_data = read_csv("./gun_violence_data/gun_violence_data_2013_2018.csv")
+
+gun_v_tidy = 
+    gun_violence_data %>% 
+    select(date:city_or_county, n_killed, n_injured, latitude, longitude) %>% 
+    separate(date, into = c("year", "month", "day"), sep = "-") %>% 
+    mutate(n_affected = n_killed + n_injured) %>%
+    filter(n_affected > 0) %>% 
+    mutate(mass_shooting = ifelse(n_affected >= 4, "Yes", "No"))
+```
 
 ### Dataset 2: CDC Firearm Mortality Data
 
@@ -198,6 +210,8 @@ As we can see, the dataset has no missing data. All the information, including p
 
 Exploratory Analyses
 --------------------
+
+Exploratory analyses included summarizing the number of gun violence incidents by states and visualizing this through a bubble map, as well as looking at time trends. A decision was ultimately made to favor the interactive map over the bubble map because of its greater descriptive power and to not include time trend analyses regarding this dataset since the span from 2014-2017 (only full years of data collection) proved too short to notice anything significant/interesting.
 
 Decided to use the data on firearm mortality from the CDC.
 
