@@ -65,11 +65,15 @@ gun_v_tidy =
 
 
 ### Dataset 2: CDC Firearm Mortality Data 
-Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). Data was queried on November 13, 2018. Two queries were carried out including the following variables: 1. Firearm mortality: all - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), and `crude_rate` (provided by CDC - crude_rate = [n_deaths/n_population]*100000, and 2. Firearm mortality: By Age groups and Race - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), `race` (race of victim - Black or African American, White, American Indian or Alaska Native, Asian or Pacific Islander), 
+Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). Data was queried on November 13, 2018. Three queries were carried out including the following variables: 
 
-`hispanic_origin` ()
+1. Firearm mortality: All - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), and `crude_rate` (provided by CDC - crude_rate = [n_deaths/n_population]*100000,
+2. Firearm mortality: By Age groups and Race - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), `race` (race of victim - Black or African American, White, American Indian or Alaska Native, Asian or Pacific Islander), and 
+3. Firearm mortality: By Age groups and Hispanic origin - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), and `hispanic_origin` ("Not hispanic or latino", "Unreliable", "Hispanic or latino"). 
 
-Note that these were pulled in three batches because CDC Wonder database puts limits on the number of variables to query at once.
+
+
+Note that these data were pulled in three batches because the CDC Wonder database puts limits on the number of variables to query at once.
 
 Centers for Disease Control and Prevention, National Center for Health Statistics. Underlying Cause of Death 1999-2016 on CDC WONDER Online Database, released December, 2017. Data are from the Multiple Cause of Death Files, 1999-2016, as compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program. 
 
@@ -98,7 +102,7 @@ clean_firearm_mortality = left_join(firearm_mortality_summary, st_crosswalk, by 
 ```
 
 ### Dataset 3: Gun Law Strength and State Scoring
-***Gun law scores of states*** data was taken from the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings). Gun law scores were developed using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry". 
+Gun law scores of states data was taken from the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings). Gun law scores were developed using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry". 
 
 The search for gun law strength came from an interest in the state-specific gun climate. The Gifford’s Law Center Gun Law Scorecard resulted from a quick Google search, and neatly implemented many of the factors we had thought independly would influence the gun climate. The Scorecard factors in different types of gun policies that protect citizens from gun violence, and others that protect tangentially, such as domestic violence.
 
