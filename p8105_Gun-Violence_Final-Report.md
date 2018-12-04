@@ -55,7 +55,7 @@ Data on specific Gun Violence incidents throughout the U.S. was downloaded from 
 Data cleaning steps included making individual variables for day, month, and year and creating new variables for the number affected in a given gun violence incident (`n_affected`) and that classify mass shooting status (`mass_shooting`).
 
 ``` r
-gun_violence_data = read_csv("./gun_violence_data/gun_violence_data_2013_2018.csv")
+gun_violence_data = read_csv("./data/gun_violence_data_2013_2018.csv")
 
 gun_v_tidy = 
     gun_violence_data %>% 
@@ -70,7 +70,7 @@ gun_v_tidy =
 
 Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). Data was queried on November 13, 2018. Three queries were carried out including the following variables:
 
-1.  Firearm mortality: all - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), and `crude_rate` (provided by CDC - crude\_rate = \[n\_deaths/n\_population\]\*100000,
+1.  Firearm mortality: All - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), and `crude_rate` (provided by CDC - crude\_rate = \[n\_deaths/n\_population\]\*100000,
 2.  Firearm mortality: By Age groups and Race - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), `race` (race of victim - Black or African American, White, American Indian or Alaska Native, Asian or Pacific Islander), and
 3.  Firearm mortality: By Age groups and Hispanic origin - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), and `hispanic_origin` ("Not hispanic or latino", "Unreliable", "Hispanic or latino").
 
@@ -207,6 +207,10 @@ skimr::skim(gun_control) %>%
 As we can see, the dataset has no missing data. All the information, including population statistics, background check / applications statistics, approved licensees statistics, are generalized for different states (except for D.C.).
 
 ### Dataset 5: Unemployment data
+
+#### Cleaning
+
+### Dataset 6: U.S. Chronic Disease Indicators (CDI)
 
 #### Cleaning
 

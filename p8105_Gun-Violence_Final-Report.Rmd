@@ -52,7 +52,7 @@ Data on specific Gun Violence incidents throughout the U.S. was downloaded from 
 Data cleaning steps included making individual variables for day, month, and year and creating new variables for the number affected in a  given gun violence incident (`n_affected`) and that classify mass shooting status (`mass_shooting`). 
 
 ```{r eval=FALSE}
-gun_violence_data = read_csv("./gun_violence_data/gun_violence_data_2013_2018.csv")
+gun_violence_data = read_csv("./data/gun_violence_data_2013_2018.csv")
 
 gun_v_tidy = 
 	gun_violence_data %>% 
@@ -200,7 +200,16 @@ As we can see, the dataset has no missing data. All the information, including p
 
 ### Dataset 5: Unemployment data
 
+
 #### Cleaning
+
+
+### Dataset 6: U.S. Chronic Disease Indicators (CDI)
+
+
+#### Cleaning
+
+
 
 ## Exploratory Analyses
 Exploratory analyses included summarizing the number of gun violence incidents by states and visualizing this through a bubble map, as well as looking at time trends. A decision was ultimately made to favor the interactive map over the bubble map because of its greater descriptive power and to not include time trend analyses regarding this dataset since the span from 2014-2017 (only full years of data collection) proved too short to notice anything significant/interesting.
@@ -303,4 +312,10 @@ As we can see in the plot,
 ### Section 4: Regression Analyses
 
 
+
+
+
 ## Conclusion
+
+
+
