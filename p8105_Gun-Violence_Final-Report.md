@@ -59,7 +59,7 @@ All datasets can be downloaded from the following Google Drive [link](https://dr
 
 Some datasets pull from active URLs, so corresponding data is not housed in the Google Drive folder. Corresponding code should pull this data.
 
-To re-run the report, download the corresponding data into a folder named "data".
+To re-run the report, download the corresponding data into a folder named "data" also housed in the R project.
 
 ### Dataset 1: Gun Violence Incident Data (Gun Violence Archive)
 
@@ -272,9 +272,14 @@ Section 4: Regression Analyses
 Discussion and Results
 ----------------------
 
-Results from our analyses are organized in four sections, housed on separate sections of the website:
+Results from our analyses are organized in four sections, housed on separate pages of the website:
 
-### Section 1: Overview of Gun Violence in United States
+-   Section 1: Gun Violence - Overview
+-   Section 2: Firearms Mortality
+-   Section 3: Regression Analysis
+-   Section 4: Gun Control by State
+
+### Section 1: Gun Violence - Overview
 
 Section 1 provides an overview of Gun Violence in the U.S., drawing from **Dataset 1: Gun Violence Incident Data (Gun Violence Archive)**. The primary goal of this section is to highlight the widespread nature of gun violence throughout the U.S.
 
@@ -348,25 +353,35 @@ prop_data %>%
 
 ![](p8105_Gun-Violence_Final-Report_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
-### Section 2: Exploration of Firearm Mortality in United States
+### Section 2: Firearms Mortality (Shiny Dashboard)
 
-Section 2 explores changes in the crude firearm mortality, law strength and unemployment rates across the United States over time. This section is housed in a Shiny dashboard to enable users to toggle between different variables and years. This section pulls data from the **Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, and **Dataset 5: Unemployment data** sources.
+Section 2 explores changes in the crude firearm mortality, law strength and unemployment rates across the United States over time. This section is housed in a Shiny Dashboard to enable users to toggle between different variables and years. This section pulls data from the **Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, and **Dataset 5: Unemployment data** sources.
 
 The source code for the Shiny dashboard is available to review [online](https://zanis-shiny.shinyapps.io/shiny_states/).
 
-#### Crude Death Rate Map (1999-2016) for each state
+The three main elements of the Shiny Dashboard are described below:
 
-The Crude Death Rate map allows users to toggle between different years (1999-2016), demonstrating the changes in variables over time and visualize regional differences across the U.S. The map includes visualization of distributions of the following variables:
+#### Crude Death Rate Map (2000-2016) for each state
+
+The Crude Death Rate map allows users to toggle between different years (2000-2016), demonstrating the changes in variables over time and visualize regional differences across the U.S. The map includes visualization of distributions of the following variables:
 
 -   `unemployment rate`, `crude rate`, `deaths`, `population`, `law strength (2016 only)`, `smoking`, `disability`, `self reported health`, `drinking`, `leisure physical activities`, `overweight`, `poverty`, `diabetes`, `mental health`, and `sleep`.
 
 The map demonstrates that there are significant changes over time in all variables.
 
-#### Breakdown of crude death rate over time (1999-2016) by race and age group
+#### Crude Firearm Death Rate Across All States by Age Group and Race
 
-This
+This barplot displays the distribution of firearm mortality deaths by age group and race. Visualizing a breakdown of mortality across different age groups and races is important to identify potential disparities in mortality and identify which groups should be the focus of public health interventions.
 
-#### Breakdown of crude death rate over time (1999-2016) by hispanic origin and age group
+The plot shows that distributions of deaths across age groups and races changes over time. In 2016, the 15-24 age group had the most firearm-related deaths, mostly concentrated in Black/African American group. Over time, white victims comprised a fairly steady number of deaths across all age groups. A comparison of 2000 versus 2016 reveals that deaths among "American Indian or Alaska Natives" have increased across all age groups. Death rates for Asian/Pacific Islanders have consistently been the lowest across all race groups.
+
+#### Crude Firearm Death Rate Across All States by Age Group and Hispanic Origin
+
+This barplot displays the distribution of firearm mortality deaths by age group and hispanic origin. This was displayed separately than the breakdown by Race because the Hispanic origin variable is assessed separately for this dataset. Moreover, individuals identifying as any race can also choose to select Hispanic/Latino origin. Therefore there is overlap between the two measures. Death certificates missing Hispanic origin information were coded as "not stated" and excluded from this visualization.
+
+Firearm mortality rates are generally higher in Non Hispanic/Latino groups than Hispanic/Latino. In 2016,
+
+In addition, firearm mortality across all age groups has increased over time.
 
 ### Section 3: Role of Gun Control
 
