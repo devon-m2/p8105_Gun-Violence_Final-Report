@@ -83,13 +83,12 @@ gun_v_tidy =
 
 ### Dataset 2: CDC Firearm Mortality Data
 
-Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). Data was queried on November 13, 2018. Three queries were carried out including the following variables:
+Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://wonder.cdc.gov/ucd-icd10.html). Data was queried on November 13, 2018. Two queries were carried out including the following variables:
 
 1.  Firearm mortality: All - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), and `crude_rate` (provided by CDC - crude\_rate = \[n\_deaths/n\_population\]\*100000,
 2.  Firearm mortality: By Age groups and Race - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), `race` (race of victim - Black or African American, White, American Indian or Alaska Native, Asian or Pacific Islander), and
-3.  Firearm mortality: By Age groups and Hispanic origin - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), and `hispanic_origin` ("Not hispanic or latino", "Unreliable", "Hispanic or latino").
 
-Note that these data were pulled in three batches because the CDC Wonder database puts limits on the number of variables to query at once.
+Note that these data were pulled in batches because the CDC Wonder database puts limits on the number of variables to query at once.
 
 Centers for Disease Control and Prevention, National Center for Health Statistics. Underlying Cause of Death 1999-2016 on CDC WONDER Online Database, released December, 2017. Data are from the Multiple Cause of Death Files, 1999-2016, as compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program.
 
@@ -363,9 +362,7 @@ The three main elements of the Shiny Dashboard are described below:
 
 #### Crude Death Rate Map (2000-2016) for each state
 
-The Crude Death Rate map allows users to toggle between different years (2000-2016), demonstrating the changes in variables over time and visualize regional differences across the U.S. The map includes visualization of distributions of the following variables:
-
--   `unemployment rate`, `crude rate`, `deaths`, `population`, `law strength (2016 only)`, `smoking`, `disability`, `self reported health`, `drinking`, `leisure physical activities`, `overweight`, `poverty`, `diabetes`, `mental health`, and `sleep`.
+The Crude Death Rate map allows users to toggle between different years (2000-2016), demonstrating the changes in variables over time and visualize regional differences across the U.S. The map includes visualization of distributions of the following variables: `unemployment rate`, `crude rate`, `deaths`, `population`, `law strength (2016 only)`, `smoking`, `disability`, `self reported health`, `drinking`, `leisure physical activities`, `overweight`, `poverty`, `diabetes`, `mental health`, and `sleep`.
 
 The map demonstrates that there are significant changes over time in all variables.
 
@@ -375,13 +372,7 @@ This barplot displays the distribution of firearm mortality deaths by age group 
 
 The plot shows that distributions of deaths across age groups and races changes over time. In 2016, the 15-24 age group had the most firearm-related deaths, mostly concentrated in Black/African American group. Over time, white victims comprised a fairly steady number of deaths across all age groups. A comparison of 2000 versus 2016 reveals that deaths among "American Indian or Alaska Natives" have increased across all age groups. Death rates for Asian/Pacific Islanders have consistently been the lowest across all race groups.
 
-#### Crude Firearm Death Rate Across All States by Age Group and Hispanic Origin
-
-This barplot displays the distribution of firearm mortality deaths by age group and hispanic origin. This was displayed separately than the breakdown by Race because the Hispanic origin variable is assessed separately for this dataset. Moreover, individuals identifying as any race can also choose to select Hispanic/Latino origin. Therefore there is overlap between the two measures. Death certificates missing Hispanic origin information were coded as "not stated" and excluded from this visualization.
-
-Firearm mortality rates are generally higher in Non Hispanic/Latino groups than Hispanic/Latino. In 2016,
-
-In addition, firearm mortality across all age groups has increased over time.
+Note that "Hispanic origin" is considered a separate variable from "Race" in the Census data, and therefore was not included in this barchart. The Hispanic origin variable is assessed separately after Race is designated, and therefore individuals identifying as any of the race options included can also choose to select Hispanic/Latino origin. Therefore there is overlap between the two measures.
 
 ### Section 3: Role of Gun Control
 
@@ -390,6 +381,8 @@ Section 3 explores the role of gun control in gun violence, pulling data from th
 #### Approved license vs. law strength
 
 The first plot show the relationship between the percentage of people get approved for gun licenses, mortality rate and the law strength in each state.
+
+An interactive plot (available online) was constructed to visualize all gun violence incidents. The source code for this map is below:
 
 ``` r
 gun_control %>% 
@@ -419,6 +412,8 @@ As we can see in this plot, in different states, the percentage of people get ap
 #### Application for guns vs. law strength
 
 The second plot shows the relationship application percentage (proportion of people applying for the license in total population), mortality rate and the law strength.
+
+An interactive plot (available online) was constructed to visualize all gun violence incidents. The source code for this map is below:
 
 ``` r
 gun_control %>% 
