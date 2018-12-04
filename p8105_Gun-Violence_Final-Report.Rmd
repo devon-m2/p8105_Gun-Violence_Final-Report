@@ -249,11 +249,12 @@ Section 4: Regression Analyses
 Results from our analyses are organized in four sections, housed on separate sections of the website: 
 
 ### Section 1: Overview of Gun Violence in United States
-Section 1 provides an overview of Gun Violence in the U.S., drawing from **Dataset 1: Gun Violence Incident Data (Gun Violence Archive)**. 
+Section 1 provides an overview of Gun Violence in the U.S., drawing from **Dataset 1: Gun Violence Incident Data (Gun Violence Archive)**. The primary goal of this section is to highlight the widespread nature of gun violence throughout the U.S.
 
 #### The United States as a Product of Gun Violence...
 Gun violence has drastically shaped our attitudes and our political climate. The pervasive nature of gun violence in contemporary America is evinced by a map that is entirely constructed of gun violence incident points. 
 
+An interactive map (available online) was constructed to visualize all gun violence incidents. The source code for this map is below: 
 ```{r eval = FALSE}
 gun_v_tidy %>%
 	filter(state != "Alaska", state != "Hawaii", longitude < 0) %>% 
@@ -324,7 +325,7 @@ The Crude Death Rate map allows users to toggle between different years (1999-20
 The map demonstrates that there are significant changes over time in all variables. 
 
 #### Breakdown of crude death rate over time (1999-2016) by race and age group 
-
+This 
 
 #### Breakdown of crude death rate over time (1999-2016) by hispanic origin and age group
 

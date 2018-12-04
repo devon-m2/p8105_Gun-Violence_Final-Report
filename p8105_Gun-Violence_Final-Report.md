@@ -195,6 +195,25 @@ gun_lic = inner_join(approved_lic, back_check, by = "state") %>%
          application_rate = number_of_background_checks/number_of_residents_in_millions/1000000)
 ```
 
+### Dataset 5: Unemployment data
+
+#### Cleaning
+
+### Dataset 6: U.S. Chronic Disease Indicators (CDI)
+
+#### Cleaning
+
+Exploratory Analyses
+--------------------
+
+Exploratory analyses included summarizing the number of gun violence incidents by states and visualizing this through a bubble map, as well as looking at time trends. A decision was ultimately made to favor the interactive map over the bubble map because of its greater descriptive power and to not include time trend analyses regarding this dataset since the span from 2014-2017 (only full years of data collection) proved too short to notice anything significant/interesting.
+
+Decided to use the data on firearm mortality from the CDC.
+
+Decided to not focus on subtypes of gun violence, including mass shootings versus domestic violence, but gun violence in general. We acknowledge that risk factors could differ across sub-types. Important to consider in the future -- overall
+
+Preliminary maps were made with ggmap showing a gradient of gun law strength as well as the categorical grades.
+
 ##### Numerical variables
 
 ``` r
@@ -245,25 +264,6 @@ skimr::skim(gun_control) %>%
 
 As we can see, the dataset has no missing data. All the information, including population statistics, background check / applications statistics, approved licensees statistics, are generalized for different states (except for D.C.).
 
-### Dataset 5: Unemployment data
-
-#### Cleaning
-
-### Dataset 6: U.S. Chronic Disease Indicators (CDI)
-
-#### Cleaning
-
-Exploratory Analyses
---------------------
-
-Exploratory analyses included summarizing the number of gun violence incidents by states and visualizing this through a bubble map, as well as looking at time trends. A decision was ultimately made to favor the interactive map over the bubble map because of its greater descriptive power and to not include time trend analyses regarding this dataset since the span from 2014-2017 (only full years of data collection) proved too short to notice anything significant/interesting.
-
-Decided to use the data on firearm mortality from the CDC.
-
-Decided to not focus on subtypes of gun violence, including mass shootings versus domestic violence, but gun violence in general. We acknowledge that risk factors could differ across sub-types. Important to consider in the future -- overall
-
-Preliminary maps were made with ggmap showing a gradient of gun law strength as well as the categorical grades.
-
 Regression Analyses
 -------------------
 
@@ -272,13 +272,17 @@ Section 4: Regression Analyses
 Discussion and Results
 ----------------------
 
+Results from our analyses are organized in four sections, housed on separate sections of the website:
+
 ### Section 1: Overview of Gun Violence in United States
 
-Section 1 provides an overview of Gun Violence in the U.S., drawing from **Dataset 1: Gun Violence Incident Data (Gun Violence Archive)**.
+Section 1 provides an overview of Gun Violence in the U.S., drawing from **Dataset 1: Gun Violence Incident Data (Gun Violence Archive)**. The primary goal of this section is to highlight the widespread nature of gun violence throughout the U.S.
 
 #### The United States as a Product of Gun Violence...
 
 Gun violence has drastically shaped our attitudes and our political climate. The pervasive nature of gun violence in contemporary America is evinced by a map that is entirely constructed of gun violence incident points.
+
+An interactive map (available online) was constructed to visualize all gun violence incidents. The source code for this map is below:
 
 ``` r
 gun_v_tidy %>%
@@ -359,6 +363,8 @@ The Crude Death Rate map allows users to toggle between different years (1999-20
 The map demonstrates that there are significant changes over time in all variables.
 
 #### Breakdown of crude death rate over time (1999-2016) by race and age group
+
+This
 
 #### Breakdown of crude death rate over time (1999-2016) by hispanic origin and age group
 
