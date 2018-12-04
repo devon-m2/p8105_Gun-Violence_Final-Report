@@ -7,10 +7,23 @@ output: github_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(rvest)
+library(httr)
+library(plotly)
+library(readxl)
+library(patchwork)
+library(viridis)
+
 ```
 
 ## Motivation
 Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. The goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes. 
+
+## Background
++ The [American Public Health Association (APHA)](https://www.apha.org/topics-and-issues/gun-violence) states that gun violence "is a leading cause of premature death in the U.S." More than 38,000 individuals are killed by guns each year, and another 85,000 are injured.
++ Already in 2018, the [Gun Violence Archive](https://www.gunviolencearchive.org) has reported 52,422 gun violence incidents in the United States; 325 of these incidents were mass shootings.
++ Since 1996, the [Dickey Amendment](https://en.wikipedia.org/wiki/Dickey_Amendment) has acted as a de facto ban on gun violence research by the [Centers for Disease Control and Prevention (CDC)](https://www.cdc.gov). 
 
 ## Related Work
 Gun violence has received widespread media attention in recent years, particularly due to the increased occurrence of mass shootings. Preventing firearm injury and death has increasingly been considered a major public health issue.
@@ -51,7 +64,7 @@ Data on specific Gun Violence incidents throughout the U.S. was downloaded from 
 #### Cleaning
 Data cleaning steps included making individual variables for day, month, and year and creating new variables for the number affected in a  given gun violence incident (`n_affected`) and that classify mass shooting status (`mass_shooting`). 
 
-```{r eval=FALSE}
+```{r }
 gun_violence_data = read_csv("./data/gun_violence_data_2013_2018.csv")
 
 gun_v_tidy = 
@@ -79,7 +92,7 @@ Centers for Disease Control and Prevention, National Center for Health Statistic
 
 #### Cleaning
 The following steps were used to clean the CDC Firearm data, including adding state abbreviations, and changing `age_groups` into a factor variable. 
-```{r eval = FALSE}
+```{r }
 # Detailed Firearm Mortality Datatsets by Race, Age
 firearm_mortality = read_csv("./data/cdc_firearm_mortality_data.csv", na = "Unreliable") %>% 
     janitor::clean_names() %>% 
@@ -109,34 +122,33 @@ The search for gun law strength came from an interest in the state-specific gun 
 #### Cleaning
 The Scorecard report exists on the Gifford’s Law Center’s website as a table. A css table was extracted from the URL that included all the data from the Scorecard in an already tidied manner, as each row was a different state and each column was a different variable. Variables were cleaned up and renamed for ease. For sake of easier comparisons, the grade scale was collapsed from 10 levels to 5, removing the pluses and minuses and keeping the alphabetic grade. The death rate and death rate rank were removed as we were obtaining this information from other sources. 
 
-```{r eval = FALSE}
+```{r }
 # website URL
 url = "https://lawcenter.giffords.org/scorecard/#rankings"
 gun_climate_url = read_html(url)
 
 # extract table and clean data
 gun_climate_data = 
-    gun_climate_url %>% 
+	gun_climate_url %>% 
   html_nodes(css = "table") %>% 
   .[[1]] %>% 
   html_table(header = TRUE) %>% 
   as.tibble() %>% 
-    janitor::clean_names() %>% 
-    rename(
-        law_strength = gun_law_strength_ranked, 
-        grade_2017 = x2017grade, 
-        death_rate_rank = gun_death_rate_ranked, 
-        death_rate = gun_death_rate_per_100k) %>% 
-    mutate(
+	janitor::clean_names() %>% 
+	rename(
+		law_strength = gun_law_strength_ranked, 
+		grade_2017 = x2017grade, 
+		death_rate_rank = gun_death_rate_ranked, 
+		death_rate = gun_death_rate_per_100k) %>% 
+	mutate(
     grade_2017 = factor(grade_2017, 
                       levels = c("A", "A-", "B+", "B", "C+", "C", "C-", "D", "D-", "F")), 
     grade_2017 = fct_collapse(grade_2017, 
-                                                        A = c("A", "A-"), 
-                                                        B = c("B+", "B"), 
-                                                        C = c("C+", "C", "C-"), 
-                                                        D = c("D", "D-")), 
-    state_abb = state.abb) %>% 
-        select(-state, -death_rate_rank, -death_rate)
+    													A = c("A", "A-"), 
+    													B = c("B+", "B"), 
+    													C = c("C+", "C", "C-"), 
+    													D = c("D", "D-")), 
+    state_abb = state.abb)
 ```
 
 
@@ -150,7 +162,7 @@ Data on total population was taken from [The total population across different s
 #### Cleaning
 The following steps were used to clean the gun approval rate and license data, including renaming `state` variable. The approval rate uses the proportion of licensees in the total population of the state to indicate the difficulties in getting apprroved for gun license. The application rate uses the proportion of background checks in the total population of the state to indicate people's willingness in applying for guns. For consistency purposes, District of Columbia was not included.
 
-```{r eval = FALSE}
+```{r }
 # Create a function to import and clean data
 clean_fun = function(address, area){
   readxl::read_xlsx(address, sheet = "Data", range = area) %>% 
@@ -176,10 +188,11 @@ gun_lic = inner_join(approved_lic, back_check, by = "state") %>%
 ```
 
 ##### Numerical variables
-```{r eval=FALSE}
+```{r }
 gun_control = gun_climate_data %>% 
   inner_join(gun_lic, by = "state") %>% 
   inner_join(clean_firearm_mortality, by = "state")
+
 skimr::skim(gun_control) %>%
             select(variable:stat,value) %>%
             filter((stat != "hist") , (stat != "top_counts"),(type %in% c("numeric","integer"))) %>% 
@@ -188,7 +201,7 @@ skimr::skim(gun_control) %>%
 ```
 
 ##### Categorical variables
-```{r eval=FALSE}
+```{r }
 skimr::skim(gun_control) %>%
             select(variable:stat,value) %>%
             filter((stat != "hist") , (stat != "top_counts"),(type %in% c("character","factor"))) %>% 
@@ -230,8 +243,67 @@ Section 4: Regression Analyses
 ## Discussion and Results
 
 ### Section 1: Overview of Gun Violence in United States
+Section 1 provides an overview of Gun Violence in the U.S., drawing from **Dataset 1: Gun Violence Incident Data (Gun Violence Archive)**. 
 
+#### The United States as a Product of Gun Violence...
+Gun violence has drastically shaped our attitudes and our political climate. The pervasive nature of gun violence in contemporary America is evinced by a map that is entirely constructed of gun violence incident points. 
 
+```{r eval = FALSE}
+gun_v_tidy %>%
+	filter(state != "Alaska", state != "Hawaii", longitude < 0) %>% 
+	mutate(n_affected_cat = ifelse(n_affected %in% 4:9, 2,
+													ifelse(n_affected %in% 10:19, 3,
+													ifelse(n_affected %in% 20:34, 4,
+													ifelse(n_affected %in% 35:49, 5,
+													ifelse(n_affected > 50, 6, 1)))))) %>% 
+	mutate(n_affected_cat = as.factor(n_affected_cat),
+				 n_affected_cat = recode_factor(n_affected_cat, `1` = "1-3 affected", `2` = "4-9 affected", `3` = "10-19 affected", `4` = "20-34 affected", `5` = "35-49 affected", `6` = "50+ affected"),
+				 city_state = str_c(city_or_county, state, sep = ", "), 
+				 text_label = str_c(city_state, '\n', year,'\nKilled: ', n_killed, '\nInjured: ', n_injured)) %>% 
+  plot_ly(x = ~longitude, y = ~latitude, type = "scatter", mode = "markers",
+          alpha = 0.5, 
+          color = ~n_affected_cat,
+  				colors = "Accent",
+  				text = ~text_label) %>% 
+	layout(legend = list(x = 0.8, y = 0.1))
+```
+
+#### Who Should Care About Gun Violence?
+
+**Anybody!**
+
++ Gun violence requires people, with population dense states experiencing a greater number of gun violence incidents as seen in the map above.
++ However, even the least populated states still have notable gun violence concerns.
++ The "lethality proportion" is defined as the proportion of those affected by a gun violence incident who are killed in that given gun violence incident; it gets at how deadly a given incident was.
++ Wyoming is the *least densely populated* state in the continental United States, but it hast the *highest lethality proportion* for gun violence incidents. 
++ Other states that follow this low population density ~ high lethality proportion paradigm are Idaho, Montana, Alaska, and Nevada.
++ A possible reason for this paradigm is that lack of population density leads to a lower density of healthcare infrastucture, which then leads to isolation during emergencies. 
+
+The plot below shows the national average for the lethality proportion as a dotted line. 
+
+```{r }
+prop_data = 
+	gun_v_tidy %>% 
+	mutate(prop_killed = n_killed / (n_killed + n_injured))
+
+prop_data %>% 
+	summarize(mean = mean(prop_killed))
+```
+
+```{r }
+prop_data %>% 
+	group_by(state) %>% 
+	summarize(mean_prop = mean(prop_killed)) %>% 
+	mutate(state = forcats::fct_reorder(state, mean_prop)) %>% 
+	ggplot(aes(x = state, y = mean_prop)) +
+	geom_point() +
+	geom_abline(slope = 0, intercept = 0.346, color = "purple", linetype = "dashed") +
+	theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 6)) +
+	labs(
+    x = " ",
+    y = "Lethality Proportion"
+  ) 
+```
 
 ### Section 2: Exploration of Firearm Mortality in United States
 Section 2 explores changes in the crude firearm mortality, law strength and unemployment rates across the United States over time. This section is housed in a Shiny dashboard to enable users to toggle between different variables and years. This section pulls data from the **Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, and **Dataset 5: Unemployment data** sources. 
@@ -250,7 +322,7 @@ Section 3 explores the role of gun control in gun violence, pulling data from th
 
 #### Approved license vs. law strength
 The first plot show the relationship between the percentage of people get approved for gun licenses, mortality rate and the law strength in each state. 
-```{r eval=FALSE}
+```{r eval = FALSE}
 gun_control %>% 
   mutate(text_label = str_c("State:",state,  "\nCrude Rate:", crude_rate)) %>% 
   plot_ly(x = ~approval_rate, y = ~law_strength, 
@@ -279,7 +351,7 @@ As we can see in this plot, in different states, the percentage of people get ap
 #### Application for guns vs. law strength
 The second plot shows the relationship application percentage (proportion of people applying for the license in total population), mortality rate and the law strength.
 
-```{r eval=FALSE}
+```{r eval = FALSE}
 gun_control %>% 
   mutate(text_label = str_c("State:",state, '\nCrude Rate: ', crude_rate)) %>% 
   plot_ly(x = ~application_rate, y = ~law_strength,
