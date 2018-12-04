@@ -348,9 +348,15 @@ prop_data %>%
 
 Section 2 explores changes in the crude firearm mortality, law strength and unemployment rates across the United States over time. This section is housed in a Shiny dashboard to enable users to toggle between different variables and years. This section pulls data from the **Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, and **Dataset 5: Unemployment data** sources.
 
-#### Map visualizing the change in crude death rate over time (1999-2016) for each state
+The source code for the Shiny dashboard is available to review [online](https://zanis-shiny.shinyapps.io/shiny_states/).
 
--   Crude death rate (CDC data), unemployment, law strength
+#### Crude Death Rate Map (1999-2016) for each state
+
+The Crude Death Rate map allows users to toggle between different years (1999-2016), demonstrating the changes in variables over time and visualize regional differences across the U.S. The map includes visualization of distributions of the following variables:
+
+-   `unemployment rate`, `crude rate`, `deaths`, `population`, `law strength (2016 only)`, `smoking`, `disability`, `self reported health`, `drinking`, `leisure physical activities`, `overweight`, `poverty`, `diabetes`, `mental health`, and `sleep`.
+
+The map demonstrates that there are significant changes over time in all variables.
 
 #### Breakdown of crude death rate over time (1999-2016) by race and age group
 

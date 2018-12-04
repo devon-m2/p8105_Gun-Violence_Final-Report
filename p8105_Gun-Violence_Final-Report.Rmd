@@ -32,7 +32,7 @@ Inspiration was drawn from a variety of background sources including:
 
 *  [Gun Violence Archive](https://www.gunviolencearchive.org/), a nonprofit focused on providing data on gun related incidents in the U.S., which provides helpful visuals related to gun violence incidents across the country.
 *  [Wintemute, G. J. (2015). The epidemiology of firearm violence in the twenty-first century United States. Annual Review of Public Health, 36, 5-19.](https://www.annualreviews.org/doi/full/10.1146/annurev-publhealth-031914-122535)
-*  [Gun Violence - National Institute for Justice](https://www.nij.gov/topics/crime/gun-violence/pages/welcome.aspx) 
+*  [Gun Violence - National Institute for Justice](https://www.nij.gov/topics/crime/gun-violence/pages/welcome.aspx)
 *  [Giffords Law Center](https://lawcenter.giffords.org)
 
 
@@ -91,11 +91,9 @@ Data on Firearm Mortality was obtained from the [CDC Wonder data query](https://
 2. Firearm mortality: By Age groups and Race - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), `race` (race of victim - Black or African American, White, American Indian or Alaska Native, Asian or Pacific Islander), and 
 3. Firearm mortality: By Age groups and Hispanic origin - `state`, `year`, `n_deaths` (number of firearm deaths), `n_population` (state population), `crude_rate`, `age_group` (age ranges for victims), and `hispanic_origin` ("Not hispanic or latino", "Unreliable", "Hispanic or latino"). 
 
-
-
 Note that these data were pulled in three batches because the CDC Wonder database puts limits on the number of variables to query at once.
 
-Centers for Disease Control and Prevention, National Center for Health Statistics. Underlying Cause of Death 1999-2016 on CDC WONDER Online Database, released December, 2017. Data are from the Multiple Cause of Death Files, 1999-2016, as compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program. 
+Centers for Disease Control and Prevention, National Center for Health Statistics. Underlying Cause of Death 1999-2016 on CDC WONDER Online Database, released December, 2017. Data are from the Multiple Cause of Death Files, 1999-2016, as compiled from data provided by the 57 vital statistics jurisdictions through the Vital Statistics Cooperative Program.
 
 #### Cleaning
 The following steps were used to clean the CDC Firearm data, including adding state abbreviations, and changing `age_groups` into a factor variable. 
@@ -194,29 +192,6 @@ gun_lic = inner_join(approved_lic, back_check, by = "state") %>%
          application_rate = number_of_background_checks/number_of_residents_in_millions/1000000)
 ```
 
-##### Numerical variables
-```{r }
-gun_control = gun_climate_data %>% 
-  inner_join(gun_lic, by = "state") %>% 
-  inner_join(clean_firearm_mortality, by = "state")
-
-skimr::skim(gun_control) %>%
-            select(variable:stat,value) %>%
-            filter((stat != "hist") , (stat != "top_counts"),(type %in% c("numeric","integer"))) %>% 
-            spread(key = stat,value = value) %>% 
-  knitr::kable(digits = 1) 
-```
-
-##### Categorical variables
-```{r }
-skimr::skim(gun_control) %>%
-            select(variable:stat,value) %>%
-            filter((stat != "hist") , (stat != "top_counts"),(type %in% c("character","factor"))) %>% 
-            spread(key = stat,value = value) %>% 
-  knitr::kable(digits = 1) 
-```
-
-As we can see, the dataset has no missing data. All the information, including population statistics, background check / applications statistics, approved licensees statistics,  are generalized for different states (except for D.C.).
 
 ### Dataset 5: Unemployment data
 
@@ -242,12 +217,36 @@ overall
 Preliminary maps were made with ggmap showing a gradient of gun law strength as well as the categorical grades. 
 
  
+##### Numerical variables
+```{r }
+gun_control = gun_climate_data %>% 
+  inner_join(gun_lic, by = "state") %>% 
+  inner_join(clean_firearm_mortality, by = "state")
+
+skimr::skim(gun_control) %>%
+            select(variable:stat,value) %>%
+            filter((stat != "hist") , (stat != "top_counts"),(type %in% c("numeric","integer"))) %>% 
+            spread(key = stat,value = value) %>% 
+  knitr::kable(digits = 1) 
+```
+
+##### Categorical variables
+```{r }
+skimr::skim(gun_control) %>%
+            select(variable:stat,value) %>%
+            filter((stat != "hist") , (stat != "top_counts"),(type %in% c("character","factor"))) %>% 
+            spread(key = stat,value = value) %>% 
+  knitr::kable(digits = 1) 
+```
+
+As we can see, the dataset has no missing data. All the information, including population statistics, background check / applications statistics, approved licensees statistics,  are generalized for different states (except for D.C.).
 
 ## Regression Analyses 
 Section 4: Regression Analyses
 
 
 ## Discussion and Results
+Results from our analyses are organized in four sections, housed on separate sections of the website: 
 
 ### Section 1: Overview of Gun Violence in United States
 Section 1 provides an overview of Gun Violence in the U.S., drawing from **Dataset 1: Gun Violence Incident Data (Gun Violence Archive)**. 
@@ -315,8 +314,14 @@ prop_data %>%
 ### Section 2: Exploration of Firearm Mortality in United States
 Section 2 explores changes in the crude firearm mortality, law strength and unemployment rates across the United States over time. This section is housed in a Shiny dashboard to enable users to toggle between different variables and years. This section pulls data from the **Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, and **Dataset 5: Unemployment data** sources. 
 
-#### Map visualizing the change in crude death rate over time (1999-2016) for each state
-- Crude death rate (CDC data), unemployment, law strength
+The source code for the Shiny dashboard is available to review [online](https://zanis-shiny.shinyapps.io/shiny_states/).  
+
+#### Crude Death Rate Map (1999-2016) for each state
+The Crude Death Rate map allows users to toggle between different years (1999-2016), demonstrating the changes in variables over time and visualize regional differences across the U.S. The map includes visualization of distributions of the following variables: 
+
+*  `unemployment rate`, `crude rate`, `deaths`, `population`, `law strength (2016 only)`, `smoking`, `disability`, `self reported health`, `drinking`, `leisure physical activities`, `overweight`, `poverty`, `diabetes`, `mental health`, and `sleep`. 
+
+The map demonstrates that there are significant changes over time in all variables. 
 
 #### Breakdown of crude death rate over time (1999-2016) by race and age group 
 
