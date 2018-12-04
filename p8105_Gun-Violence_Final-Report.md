@@ -35,8 +35,8 @@ Questions to address in the project include:
 -   How are gun license approval rates related to firearm mortality and law strength?
 -   How does the gun application percentage(proportion of people applying for the license in total population) relate to firearm mortality and law strength?
 
-Data Sources and Cleaning Method
---------------------------------
+Data Sources and Cleaning Methods
+---------------------------------
 
 Data from five sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
 
@@ -48,7 +48,7 @@ Data from five sources were considered for this project. The data sources, scrap
 
 ### Dataset 1: Gun Violence Incident Data (Gun Violence Archive)
 
-Data on specific Gun Violence incidents throughout the U.S. was downloaded from a Kaggle data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/). Gun Violence Archive is a non-profit formed in 2013 to provide free online public access to accurate information about gun-related violence in the United States. The archive collects information in incidents "from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization." The dataset accessed from Kaggle scraped and partially tided the data from Gun Violence Archive.
+Data on specific Gun Violence incidents throughout the U.S. was downloaded from a Kaggle data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/). Gun Violence Archive is a non-profit formed in 2013 to provide free online public access to accurate information about gun-related violence in the United States. The archive collects information on gun violence incidents "from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization." The dataset accessed from Kaggle scraped and partially tided the data from Gun Violence Archive.
 
 #### Cleaning
 
