@@ -87,10 +87,13 @@ clean_firearm_mortality = left_join(firearm_mortality_summary, st_crosswalk, by 
 ```
 
 ### Dataset 3: Gun Law Strength and State Scoring
-***Gun law scores of states*** is created by the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings) using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry". 
+***Gun law scores of states*** data was taken from the [Giffords Law Center](https://lawcenter.giffords.org/scorecard/#rankings). Gun law scores were developed using "a comprehensive grading rubric that assigns positive point values to gun safety policies, such as private-sale background checks and extreme risk protection orders, and negative point values to dangerous laws, such as permitless concealed carry". 
+
+The search for gun law strength came from an interest in the state-specific gun climate. The Gifford’s Law Center Gun Law Scorecard resulted from a quick Google search, and neatly implemented many of the factors we had thought independly would influence the gun climate. The Scorecard factors in different types of gun policies that protect citizens from gun violence, and others that protect tangentially, such as domestic violence.
 
 #### Cleaning
-The following____________
+The Scorecard report exists on the Gifford’s Law Center’s website as a table. A css table was extracted from the URL that included all the data from the Scorecard in an already tidied manner, as each row was a different state and each column was a different variable. Variables were cleaned up and renamed for ease. For sake of easier comparisons, the grade scale was collapsed from 10 levels to 5, removing the pluses and minuses and keeping the alphabetic grade. The death rate and death rate rank were removed as we were obtaining this information from other sources. 
+
 ```{r eval = FALSE}
 # website URL
 url = "https://lawcenter.giffords.org/scorecard/#rankings"
@@ -192,7 +195,7 @@ Decided to use the data on firearm mortality from the CDC.
 Decided to not focus on subtypes of gun violence, including mass shootings versus domestic violence, but gun violence in general. We acknowledge that risk factors could differ across sub-types. Important to consider in the future -- 
 overall 
 
-
+Preliminary maps were made with ggmap showing a gradient of gun law strength as well as the categorical grades. 
 
  
 
