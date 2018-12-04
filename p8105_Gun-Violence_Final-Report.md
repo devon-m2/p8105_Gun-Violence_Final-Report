@@ -6,7 +6,7 @@ Yuelin Long (yl3181), Marisa Sobel (ms5533), Eileen Shea (eas2297), Zanis Fang (
 Motivation
 ----------
 
-Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. This goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes.
+Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. The goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes.
 
 Related Work
 ------------

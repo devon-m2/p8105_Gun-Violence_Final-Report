@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Motivation
-Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. This goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes. 
+Gun violence has been of increasing concern across the United States over the past decade. Our objective was to develop an online resource to explore general trends in gun violence and identify any important variables associated with gun violence incidence. The target audience for this webpage includes the general public, gun violence activists and legislators. The goal of this resource is to raise awareness on the widespread impact of gun violence, and inform future public health interventions and policy changes. 
 
 ## Related Work
 Gun violence has received widespread media attention in recent years, particularly due to the increased occurrence of mass shootings. Preventing firearm injury and death has increasingly been considered a major public health issue.
@@ -249,7 +249,6 @@ As we can see in this plot, in different states, the percentage of people get ap
 The second plot shows the relationship application percentage (proportion of people applying for the license in total population), mortality rate and the law strength.
 
 ```{r eval=FALSE}
-
 gun_control %>% 
   mutate(text_label = str_c("State:",state, '\nCrude Rate: ', crude_rate)) %>% 
   plot_ly(x = ~application_rate, y = ~law_strength,
