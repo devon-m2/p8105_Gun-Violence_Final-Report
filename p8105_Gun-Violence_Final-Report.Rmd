@@ -39,7 +39,11 @@ Questions to address in the project include:
 ## Data Sources and Cleaning Method
 Data from five sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below. 
 
-The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project). 
+*  The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project). 
+
+*  The final website can be found [here](https://mhsobel.github.io/p8105_Final.github.io/), and corresponding Github repository for the website is located [here](https://github.com/mhsobel/p8105_Final.github.io).
+
+*  The final report is housed in a repository [here](https://github.com/devon-m2/p8105_Gun-Violence_Final-Report). 
 
 ### Dataset 1: Gun Violence Incident Data (Gun Violence Archive) 
 Data on specific Gun Violence incidents throughout the U.S. was downloaded from a data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/), a "online archive of gun violence incidents collected from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide  near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization."

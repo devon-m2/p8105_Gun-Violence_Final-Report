@@ -40,7 +40,11 @@ Data Sources and Cleaning Method
 
 Data from five sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
 
-The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project).
+-   The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project).
+
+-   The final website can be found [here](https://mhsobel.github.io/p8105_Final.github.io/), and corresponding Github repository for the website is located [here](https://github.com/mhsobel/p8105_Final.github.io).
+
+-   The final report is housed in a repository [here](https://github.com/devon-m2/p8105_Gun-Violence_Final-Report).
 
 ### Dataset 1: Gun Violence Incident Data (Gun Violence Archive)
 
