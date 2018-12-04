@@ -161,6 +161,31 @@ gun_lic = inner_join(approved_lic, back_check, by = "state") %>%
          application_rate = number_of_background_checks/number_of_residents_in_millions/1000000)
 ```
 
+##### Numerical variables
+
+``` r
+gun_control = gun_climate_data %>% 
+  inner_join(gun_lic, by = "state") %>% 
+  inner_join(clean_firearm_mortality, by = "state")
+skimr::skim(gun_control) %>%
+            select(variable:stat,value) %>%
+            filter((stat != "hist") , (stat != "top_counts"),(type %in% c("numeric","integer"))) %>% 
+            spread(key = stat,value = value) %>% 
+  knitr::kable(digits = 1) 
+```
+
+##### Categorical variables
+
+``` r
+skimr::skim(gun_control) %>%
+            select(variable:stat,value) %>%
+            filter((stat != "hist") , (stat != "top_counts"),(type %in% c("character","factor"))) %>% 
+            spread(key = stat,value = value) %>% 
+  knitr::kable(digits = 1) 
+```
+
+As we can see, the dataset has no missing data. All the information, including population statistics, background check / applications statistics, approved licensees statistics, are generalized for different states (except for D.C.).
+
 ### Dataset 5: Unemployment data
 
 #### Cleaning
