@@ -53,6 +53,14 @@ Data from five sources were considered for this project. The data sources, scrap
 
 -   The final report is housed in a repository [here](https://github.com/devon-m2/p8105_Gun-Violence_Final-Report).
 
+### Data Download
+
+All datasets can be downloaded from the following Google Drive [link](https://drive.google.com/drive/folders/12ccHT2Xsxf_5Gwm8pL4CarYoq6PlLoTQ?usp=sharing).
+
+Some datasets pull from active URLs, so corresponding data is not housed in the Google Drive folder. Corresponding code should pull this data.
+
+To re-run the report, download the corresponding data into a folder named "data".
+
 ### Dataset 1: Gun Violence Incident Data (Gun Violence Archive)
 
 Data on specific Gun Violence incidents throughout the U.S. was downloaded from a Kaggle data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/). Gun Violence Archive is a non-profit formed in 2013 to provide free online public access to accurate information about gun-related violence in the United States. The archive collects information on gun violence incidents "from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization." The dataset accessed from Kaggle scraped and partially tided the data from Gun Violence Archive.
@@ -63,26 +71,7 @@ Data cleaning steps included making individual variables for day, month, and yea
 
 ``` r
 gun_violence_data = read_csv("./data/gun_violence_data_2013_2018.csv")
-```
 
-    ## Parsed with column specification:
-    ## cols(
-    ##   .default = col_character(),
-    ##   incident_id = col_integer(),
-    ##   date = col_date(format = ""),
-    ##   n_killed = col_integer(),
-    ##   n_injured = col_integer(),
-    ##   congressional_district = col_integer(),
-    ##   latitude = col_double(),
-    ##   longitude = col_double(),
-    ##   n_guns_involved = col_integer(),
-    ##   state_house_district = col_integer(),
-    ##   state_senate_district = col_integer()
-    ## )
-
-    ## See spec(...) for full column specifications.
-
-``` r
 gun_v_tidy = 
     gun_violence_data %>% 
     select(date:city_or_county, n_killed, n_injured, latitude, longitude) %>% 
@@ -114,26 +103,7 @@ firearm_mortality = read_csv("./data/cdc_firearm_mortality_data.csv", na = "Unre
     janitor::clean_names() %>% 
     select(-ten_year_age_groups_code, -injury_mechanism_all_other_leading_causes_code, -race_code, death_cause= injury_mechanism_all_other_leading_causes) %>% 
     mutate(ten_year_age_groups = factor(ten_year_age_groups, levels = c("1-4 years", "5-14 years", "15-24 years", "25-34 years", "35-44 years", "45-54 years", "55-64 years", "65-74 years", "75-84 years", "85+ years")))
-```
 
-    ## Parsed with column specification:
-    ## cols(
-    ##   State = col_character(),
-    ##   `State Code` = col_integer(),
-    ##   `Ten-Year Age Groups` = col_character(),
-    ##   `Ten-Year Age Groups Code` = col_character(),
-    ##   `Injury Mechanism & All Other Leading Causes` = col_character(),
-    ##   `Injury Mechanism & All Other Leading Causes Code` = col_character(),
-    ##   Race = col_character(),
-    ##   `Race Code` = col_character(),
-    ##   Year = col_integer(),
-    ##   `Year Code` = col_integer(),
-    ##   Deaths = col_integer(),
-    ##   Population = col_integer(),
-    ##   `Crude Rate` = col_double()
-    ## )
-
-``` r
 # Summary Firearm Mortality Dataset by Year
 firearm_mortality_summary = read_excel("./data/cdc_firearm_all_ages.xlsx") %>% 
     janitor::clean_names() %>% 

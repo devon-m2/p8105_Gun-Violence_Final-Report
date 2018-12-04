@@ -58,13 +58,20 @@ Data from five sources were considered for this project. The data sources, scrap
 
 *  The final report is housed in a repository [here](https://github.com/devon-m2/p8105_Gun-Violence_Final-Report). 
 
+### Data Download
+All datasets can be downloaded from the following Google Drive [link](https://drive.google.com/drive/folders/12ccHT2Xsxf_5Gwm8pL4CarYoq6PlLoTQ?usp=sharing).
+
+Some datasets pull from active URLs, so corresponding data is not housed in the Google Drive folder. Corresponding code should pull this data.  
+
+To re-run the report, download the corresponding data into a folder named "data".
+
 ### Dataset 1: Gun Violence Incident Data (Gun Violence Archive) 
 Data on specific Gun Violence incidents throughout the U.S. was downloaded from a Kaggle data repository [here](https://www.kaggle.com/jameslko/gun-violence-data), which pulls data from the [Gun Violence Archive](http://www.shootingtracker.com/). Gun Violence Archive is a non-profit formed in 2013 to provide free online public access to accurate information about gun-related violence in the United States. The archive collects information on gun violence incidents "from over 2,500 media, law enforcement, government and commercial sources daily in an effort to provide  near-real time data about the results of gun violence. GVA in an independent data collection and research group with no affiliation with any advocacy organization." The dataset accessed from Kaggle scraped and partially tided the data from Gun Violence Archive. 
 
 #### Cleaning
 Data cleaning steps included making individual variables for day, month, and year and creating new variables for the number affected in a  given gun violence incident (`n_affected`) and that classify mass shooting status (`mass_shooting`). 
 
-```{r }
+```{r message = FALSE}
 gun_violence_data = read_csv("./data/gun_violence_data_2013_2018.csv")
 
 gun_v_tidy = 
@@ -92,7 +99,7 @@ Centers for Disease Control and Prevention, National Center for Health Statistic
 
 #### Cleaning
 The following steps were used to clean the CDC Firearm data, including adding state abbreviations, and changing `age_groups` into a factor variable. 
-```{r }
+```{r message = FALSE}
 # Detailed Firearm Mortality Datatsets by Race, Age
 firearm_mortality = read_csv("./data/cdc_firearm_mortality_data.csv", na = "Unreliable") %>% 
     janitor::clean_names() %>% 
@@ -122,7 +129,7 @@ The search for gun law strength came from an interest in the state-specific gun 
 #### Cleaning
 The Scorecard report exists on the Gifford’s Law Center’s website as a table. A css table was extracted from the URL that included all the data from the Scorecard in an already tidied manner, as each row was a different state and each column was a different variable. Variables were cleaned up and renamed for ease. For sake of easier comparisons, the grade scale was collapsed from 10 levels to 5, removing the pluses and minuses and keeping the alphabetic grade. The death rate and death rate rank were removed as we were obtaining this information from other sources. 
 
-```{r }
+```{r message = FALSE}
 # website URL
 url = "https://lawcenter.giffords.org/scorecard/#rankings"
 gun_climate_url = read_html(url)
@@ -162,7 +169,7 @@ Data on total population was taken from [The total population across different s
 #### Cleaning
 The following steps were used to clean the gun approval rate and license data, including renaming `state` variable. The approval rate uses the proportion of licensees in the total population of the state to indicate the difficulties in getting apprroved for gun license. The application rate uses the proportion of background checks in the total population of the state to indicate people's willingness in applying for guns. For consistency purposes, District of Columbia was not included.
 
-```{r }
+```{r message = FALSE}
 # Create a function to import and clean data
 clean_fun = function(address, area){
   readxl::read_xlsx(address, sheet = "Data", range = area) %>% 
