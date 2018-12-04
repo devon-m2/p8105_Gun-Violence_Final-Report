@@ -194,7 +194,6 @@ Section 3 explores the role of gun control in gun violence, pulling data from th
 #### Approved license vs. law strength
 The first plot show the relationship between the percentage of people get approved for gun licenses, mortality rate and the law strength in each state. 
 ```{r eval=FALSE}
-
 gun_control %>% 
   mutate(text_label = str_c("State:",state,  "\nCrude Rate:", crude_rate)) %>% 
   plot_ly(x = ~approval_rate, y = ~law_strength, 
@@ -250,7 +249,8 @@ gun_control %>%
 
 As we can see in the plot, 
 
-*  In most states, the percentage of people tried to apply for gun licenses is relatively same across the country, no matter how strict the law is. This shows that people in different state share equal passion to apply for guns.  
+*  In most states, the percentage of people tried to apply for gun licenses is relatively same across the country, no matter how strict the law is. This shows that people in different state share equal passion to apply for guns.
+
 *  The only exception is Kentucky. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people don't need to license or permit to own guns for private uses. This explains exceptional passion to apply for guns in Kentucky, leading to an exceptional high proportion of application for background checks. The reason that the total proportion is greater than one might be companies applying for background checks for public gun sales.
 
 ### Section 4: Regression Analyses

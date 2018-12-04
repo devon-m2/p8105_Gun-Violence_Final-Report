@@ -130,25 +130,31 @@ Data on gun license applications was taken from the [The NICS background checks]
 
 Data on [The number of federal firearms licensees in the U.S.](https://www.statista.com/statistics/215670/number-of-federal-firearms-licensees-in-the-us-by-state/) was downloaded from Statistica.com. This source pulls data from the U.S. Bureau of Alcohol, Tobacco, Firearms and Explosives (ATF), and is used to approximate how many people actually got approved for gun licenses in each state.
 
+Data on total population was taken from [The total population across different states in the U.S.](https://www.statista.com/statistics/183497/population-in-the-federal-states-of-the-us/) source. It was used to standardize number of approved license and application numbers in different states.
+
 #### Cleaning
 
 The following steps were used to clean the gun approval rate and license data, including renaming `state` variable. The approval rate uses the proportion of licensees in the total population of the state to indicate the difficulties in getting apprroved for gun license. The application rate uses the proportion of background checks in the total population of the state to indicate people's willingness in applying for guns. For consistency purposes, District of Columbia was not included.
 
 ``` r
+# Create a function to import and clean data
 clean_fun = function(address, area){
   readxl::read_xlsx(address, sheet = "Data", range = area) %>% 
   rename(state = X__1) %>% 
   janitor::clean_names()
 }
 
-
+# Import the total population data 
 total_pop = clean_fun("./data/population-in-the-states-of-the-us-as-of-2017.xlsx", "B5:C56")
 
+# Import the approved license data
 approved_lic = clean_fun("./data/number-of-federal-firearms-licensees-in-the-us-in-2017-by-state.xlsx", "B5:C57") %>% 
   filter(state != "Other Territories")
 
+# Import the background check data
 back_check = clean_fun("./data/nics-background-checks-done-by-us-firearms-licensees-2017-by-state.xlsx", "B5:C56")
 
+# Merge the datasets together
 gun_lic = inner_join(approved_lic, back_check, by = "state") %>% 
   inner_join(total_pop, by = "state") %>% 
   mutate(approval_rate = number_of_federal_firearms_licensees/number_of_residents_in_millions/1000000,
@@ -251,6 +257,7 @@ gun_control %>%
 As we can see in the plot,
 
 -   In most states, the percentage of people tried to apply for gun licenses is relatively same across the country, no matter how strict the law is. This shows that people in different state share equal passion to apply for guns.
+
 -   The only exception is Kentucky. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people don't need to license or permit to own guns for private uses. This explains exceptional passion to apply for guns in Kentucky, leading to an exceptional high proportion of application for background checks. The reason that the total proportion is greater than one might be companies applying for background checks for public gun sales.
 
 ### Section 4: Regression Analyses
