@@ -56,7 +56,7 @@ Data from six sources were considered for this project. The data sources, scrapi
 
 *  The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project). 
 
-*  The final website can be found [here](https://mhsobel.github.io/p8105_Final.github.io/), and corresponding Github repository for the website is located [here](https://github.com/mhsobel/p8105_Final.github.io).
+*  The final website can be found [here](https://eshea6.github.io/us_gun_violence.github.io/), and corresponding Github repository for the website is located [here](https://github.com/eshea6/us_gun_violence.github.io).
 
 *  The final report is housed in a repository [here](https://github.com/devon-m2/p8105_Gun-Violence_Final-Report). 
 
