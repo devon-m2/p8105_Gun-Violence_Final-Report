@@ -300,6 +300,56 @@ if (!file.exists("./data/sel_cdi.csv")) {
 }
 ```
 
+### Data Merging for Analyses
+
+To merge the datasets together for joint analyses, the cleaned firearm mortality dataset was read with law strength, cdi dataset, unemployment dataset. For each dataset, state and year were joined into state-year columns. Three datasets were joined according to state-year column and then separate back to state and year columns. Variables were then stacked into long table and remove entries with NAs, variable names were recoded to make more readable. Merged dataset was written into a merged .csv file.
+
+``` r
+library(tidyverse)
+
+# for us map
+merged_firearm_mortality <-
+    read_csv("./data/merged_firearm_mortality.csv") %>%
+    select(state_abb, year, crude_rate, deaths, population, law_strength) %>%
+    rename(state = state_abb) %>% 
+    unite(col = state_year, state, year, sep = "_")
+
+unempl <- read_csv("./data/unempl.csv") %>% 
+    unite(col = state_year, state, year, sep = "_")
+
+cdi <- read_csv("./data/sel_cdi.csv") %>% 
+    unite(col = state_year, state, year, sep = "_")
+
+merged_data <- full_join(x = cdi, y = unempl, by = "state_year")
+merged_data <- full_join(x = merged_data, y = merged_firearm_mortality, by = "state_year") %>%
+    separate(col = state_year, into = c("state", "year"), sep = "_") %>%
+    gather(key = type_variable, value = Statistics, smoking:law_strength) %>% 
+    mutate(year = as.numeric(year), Statistics = round(Statistics, 3)) %>% 
+    arrange(year) %>%
+    filter(!is.na(Statistics)) %>%
+    mutate(type_variable = recode(type_variable,
+                                                                unemployment_rate = "Unemployment Rate",
+                                                                crude_rate = "Crude Rate",
+                                                                deaths = "Deaths",
+                                                                population = "Population",
+                                                                law_strength = "Law Strength (2016 only)",
+                                                                smoking = "Smoking",
+                                                                disability_65 = "Disability",
+                                                                self_rated_health = "Self Reported Health",
+                                                                drinking = "Drinking",
+                                                                leisure_phys_act = "Leisure Physical Activities",
+                                                                overweight = "Overweight",
+                                                                diabetes = "Diabetes",
+                                                                poverty = "Poverty",
+                                                                mental_health = "Mental Health",
+                                                                sleep = "Sleep"))
+
+# write merged data
+if (!file.exists("./data/merged_data.csv")) {
+    write_csv(merged_data, "./data/merged_data.csv")
+}
+```
+
 Exploratory Analyses
 --------------------
 
@@ -364,7 +414,7 @@ As we can see, the dataset has no missing data. All the information, including p
 Regression Analyses
 -------------------
 
-Section 4: Regression Analyses
+Data from several sources were joined together into a merged dataset. We use 2016 year to build the model. Main outcome is crude death rate for each state, candidate predictors are law strength, unemployment rate, sleep time, smoking, self-reported health, overweight, population, poverty, mental health, leisure physical activity, drinking, disability and diabetes for each state. Two models were generated using criteria-based model selection and stepwise regression. Models were compared by BIC, adjusted R square, Cp, etc. Models were examined by distribution of residuals (QQ plot, residuals vs fitted value), outliers. We also used cross-validation to compare the two models.
 
 Discussion and Results
 ----------------------
@@ -448,7 +498,7 @@ prop_data %>%
   ) 
 ```
 
-![](p8105_Gun-Violence_Final-Report_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](p8105_Gun-Violence_Final-Report_files/figure-markdown_github/unnamed-chunk-12-1.png)
 
 ### Section 2: Firearms Mortality (Shiny Dashboard)
 
@@ -543,6 +593,209 @@ As we can see in the plot,
 -   The only exception is Kentucky. According to [Wikipedia](https://en.wikipedia.org/wiki/Gun_laws_in_Kentucky), people don't need to license or permit to own guns for private uses. This explains exceptional passion to apply for guns in Kentucky, leading to an exceptional high proportion of application for background checks. The reason that the total proportion is greater than one might be companies applying for background checks for public gun sales.
 
 ### Section 4: Regression Analyses
+
+The results from the regression analyses are presented below. The goal of this section was to combine our data resources and examine the following candidate predictors for the outcome of crude death rate for each state (focusing on 2016): law strength, unemployment rate, sleep time, smoking, self-reported health, overweight, population, poverty, mental health, leisure physical activity, drinking, disability and diabetes for each state.
+
+#### Correlation Matrix
+
+``` r
+data_for_reg <- read_csv("./data/merged_data.csv") %>%
+    filter(year == 2016) %>% 
+    spread(key = type_variable, value = Statistics) %>% 
+    janitor::clean_names() %>% 
+    filter(complete.cases(.)) %>% 
+    mutate(law_strength_2016_only = 51 - law_strength_2016_only) %>% 
+    select(-state, -year, -deaths)
+
+chart.Correlation(data_for_reg)
+```
+
+![](p8105_Gun-Violence_Final-Report_files/figure-markdown_github/correlation_table-1.png)
+
+*Comments:*
+
+Strong correlations can be seen among several pairs of variables. To minimize multi-collinearity, model should be selected carefully.
+
+Most of the variates follows approximately normal distribution.
+
+#### "Best" model at given number of variables
+
+``` r
+crude_rate_reg <- lm(data = data_for_reg, formula = crude_rate ~ .)
+stepwise_lm <- step(crude_rate_reg, direction = "backward")
+
+(criteria_reg <- leaps::regsubsets(crude_rate ~ ., data = data_for_reg) %>% summary())
+```
+
+``` r
+criteria_df <- as_tibble(criteria_reg$outmat) %>%
+    mutate("n_pred" = row_number()) %>%
+    select(n_pred, everything()) %>% 
+    t()
+
+colnames(criteria_df) <- c(1:8)
+criteria_df[-1, ] %>% knitr::kable()
+```
+
+|                               | 1   | 2   | 3   | 4   | 5   | 6   | 7   | 8   |
+|-------------------------------|:----|:----|:----|:----|:----|:----|:----|:----|
+| diabetes                      |     |     |     |     |     |     |     | \*  |
+| disability                    | \*  | \*  |     | \*  | \*  |     | \*  | \*  |
+| drinking                      |     |     |     |     |     | \*  | \*  | \*  |
+| law\_strength\_2016\_only     |     | \*  | \*  | \*  | \*  | \*  | \*  | \*  |
+| leisure\_physical\_activities |     |     |     |     | \*  | \*  | \*  | \*  |
+| mental\_health                |     |     |     |     |     |     |     |     |
+| overweight                    |     |     |     |     |     |     |     |     |
+| population                    |     |     |     |     |     |     |     |     |
+| poverty                       |     |     |     |     |     |     |     |     |
+| self\_reported\_health        |     |     |     |     |     | \*  | \*  | \*  |
+| sleep                         |     |     |     |     |     |     |     |     |
+| smoking                       |     |     | \*  | \*  | \*  | \*  | \*  | \*  |
+| unemployment\_rate            |     |     | \*  | \*  | \*  | \*  | \*  | \*  |
+
+*Comments:*
+
+It seems that "Law Strength", "Smoking", "Disability", "Unemployment Rate" are strong predictors. "Leisure Physical Activities" appears in large models.
+
+#### R square, BIC, Cp, Regression Sum of Squares, Residual Sum of Squares
+
+``` r
+tibble(
+    n_pred = c(1:8),
+    "Adjusted R-square" = criteria_reg$adjr2,
+    "BIC" = criteria_reg$bic,
+    "Cp" = criteria_reg$cp,
+    "Regression Square Error" = criteria_reg$rsq,
+    "Residual Sum Square" = criteria_reg$rss
+    ) %>%
+    gather(key = "Statistics", value = "value", 2:6) %>%
+    ggplot(aes(x = n_pred, y = value)) +
+      geom_point() +
+      geom_line() +
+      facet_grid(Statistics ~ ., scales = "free_y") +
+      labs(
+        x = "Number of Predictors",
+        y = "Values",
+        title = "Model selection"
+      )
+```
+
+![](p8105_Gun-Violence_Final-Report_files/figure-markdown_github/model_selection-1.png)
+
+*Comments:*
+
+Model with four predictors seems to have highest adjusted R square, lowest BIC and Cp, and is among the highest regression mean sum of squares and among the lowest residual mean sum of squares. Six-predictor model has similar parameters with four-predictor model except for the higher BIC than four-predictor model.
+
+#### Two selected models
+
+**Model from stepwise:**
+
+``` r
+summary(stepwise_lm) %>% broom::tidy() %>% knitr::kable()
+```
+
+| term                          |    estimate|  std.error|  statistic|    p.value|
+|:------------------------------|-----------:|----------:|----------:|----------:|
+| (Intercept)                   |  10.4708267|  4.6327477|   2.260176|  0.0289302|
+| drinking                      |  -0.6333038|  0.3807451|  -1.663327|  0.1035197|
+| law\_strength\_2016\_only     |  -0.1759851|  0.0299607|  -5.873866|  0.0000006|
+| leisure\_physical\_activities |  -0.3321040|  0.1482859|  -2.239619|  0.0303397|
+| self\_reported\_health        |   0.3079383|  0.2168874|   1.419807|  0.1628735|
+| smoking                       |   0.4285323|  0.1605796|   2.668659|  0.0106983|
+| unemployment\_rate            |   1.3501531|  0.4602038|   2.933815|  0.0053517|
+
+``` r
+summary(stepwise_lm) %>% broom::glance() %>% knitr::kable()
+```
+
+|       |  r.squared|  adj.r.squared|     sigma|  statistic|  p.value|   df|
+|-------|----------:|--------------:|---------:|----------:|--------:|----:|
+| value |  0.7730692|      0.7414044|  2.475718|   24.41418|        0|    7|
+
+*Comments:*
+
+Drinking, law strength, leisure seem to negatively associate with the firearm crude death rate. Self-rated health, smoking and unemployment rate positively associate with crude death rate.
+
+**Criteria based model:**
+
+``` r
+criteria_lm <- lm(data = data_for_reg, formula = crude_rate ~ disability +
+                                        law_strength_2016_only + smoking + unemployment_rate)
+summary(criteria_lm) %>% broom::tidy() %>% knitr::kable()
+```
+
+| term                      |    estimate|  std.error|   statistic|    p.value|
+|:--------------------------|-----------:|----------:|-----------:|----------:|
+| (Intercept)               |  -3.8337969|  5.0898242|  -0.7532278|  0.4552359|
+| disability                |   0.3050451|  0.1719631|   1.7738989|  0.0828465|
+| law\_strength\_2016\_only |  -0.1683490|  0.0320384|  -5.2545962|  0.0000039|
+| smoking                   |   0.2598411|  0.1371695|   1.8943066|  0.0646220|
+| unemployment\_rate        |   1.2927511|  0.4552585|   2.8395980|  0.0067578|
+
+``` r
+summary(criteria_lm) %>% broom::glance() %>% knitr::kable()
+```
+
+|       |  r.squared|  adj.r.squared|     sigma|  statistic|  p.value|   df|
+|-------|----------:|--------------:|---------:|----------:|--------:|----:|
+| value |  0.7565902|      0.7349538|  2.506406|   34.96835|        0|    5|
+
+*Comments:*
+
+Disability, smoking, unemployment rate positively associate with the firearm crude death rate. Law strength negatively associate with crude death rate.
+
+#### Model diagnostics
+
+``` r
+par(mfrow = c(2,5))
+MASS::boxcox(criteria_lm)
+plot(criteria_lm)
+MASS::boxcox(stepwise_lm)
+plot(stepwise_lm)
+```
+
+![](p8105_Gun-Violence_Final-Report_files/figure-markdown_github/model_diagnostics-1.png)
+
+*Comments:* For both models, no severe outliers observed. Residuals seem to follow normal distribution. Box-cox transformation show that no transformation of crude death rate is necessary in both models. Residuals don't hold constant over fitted values, but still around zero and not severely biased.
+
+#### Cross validation
+
+``` r
+crossv_mc(data_for_reg, 100) %>% 
+    mutate(train = map(train, as_tibble),
+                 test = map(test, as_tibble)) %>%
+    mutate(stpws_mdl = map(train, ~lm(crude_rate ~ drinking +
+                                                                            law_strength_2016_only +
+                                                                            leisure_physical_activities +
+                                                                            self_reported_health +
+                                                                            smoking +
+                                                                            unemployment_rate,
+                                                                        data = .x)),
+                 triv_mdl = map(train, ~lm(crude_rate ~ 1,
+                                                                        data = .x)),
+                 crt_mdl = map(train, ~lm(crude_rate ~ disability +
+                                                                    law_strength_2016_only +
+                                                                    smoking +
+                                                                    unemployment_rate,
+                                                                 data = .x))) %>% 
+    mutate(rmse_stpws = map2_dbl(stpws_mdl, test, ~rmse(model = .x, data = .y)),
+                 rmse_triv = map2_dbl(triv_mdl, test, ~rmse(model = .x, data = .y)),
+                 rmse_crt   = map2_dbl(crt_mdl, test, ~rmse(model = .x, data = .y))) %>% 
+    select(starts_with("rmse")) %>%
+    gather(key = model, value = rmse) %>% 
+    ggplot(aes(x = model, y = rmse)) +
+      geom_violin()
+```
+
+![](p8105_Gun-Violence_Final-Report_files/figure-markdown_github/crossvalidation-1.png)
+
+*Comments:*
+
+Four-predictor model seems to have slightly lower root mean square errors than six-predictor model. They are both better than a trivival model y ~ 1. We would choose four-predictor model.
+
+#### Regression Conclusion
+
+Four-predictor model (disability, smoking, unemployment rate, law strength) seems to perform a little better than six-predictor model (drinking, law strength, leisure, self-rated health, smoking and unemployment rate). Model diagnosis shows that the residuals of both models agree with the underlying assumption. Cross validation shows a little higher rmse for six-predictor model than four-predictor model. Disability, smoking, unemployment rate positively associate with the firearm crude death rate. Law strength negatively associate with crude death rate.
 
 Conclusion
 ----------
