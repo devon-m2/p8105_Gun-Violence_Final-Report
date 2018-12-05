@@ -358,7 +358,7 @@ Section 2 explores changes in the crude firearm mortality, law strength and unem
 
 The source code for the Shiny dashboard is available to review [online](https://zanis-shiny.shinyapps.io/shiny_states/).
 
-The three main elements of the Shiny Dashboard are described below:
+The two main elements of the Shiny Dashboard are described below:
 
 #### Crude Death Rate Map (2000-2016) for each state
 
