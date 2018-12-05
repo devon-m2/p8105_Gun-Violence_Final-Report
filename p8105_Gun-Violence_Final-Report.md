@@ -353,13 +353,15 @@ if (!file.exists("./data/merged_data.csv")) {
 Exploratory Analyses
 --------------------
 
-Exploratory analyses included summarizing the number of gun violence incidents by states and visualizing this through a bubble map, as well as looking at time trends. A decision was ultimately made to favor the interactive map over the bubble map because of its greater descriptive power and to not include time trend analyses regarding this dataset since the span from 2014-2017 (only full years of data collection) proved too short to notice anything significant/interesting.
+For the Gun Violence Archive data, time trends were initially examined. A decision was ultimately made to not include time trend analyses regarding this dataset since the span from 2014-2017 (only full years of data collection) proved too short to notice much that was significant/interesting.
 
-Decided to use the data on firearm mortality from the CDC.
+During our exploratory phase we also debated the use and consitency of the mortality data provided by the CDC versus the mortality data provided by the Gun Violence Archive. We ultimately decided to use the CDC data for our firearm mortality analyses because of its inclusion of more years.
 
-Decided to not focus on subtypes of gun violence, including mass shootings versus domestic violence, but gun violence in general. We acknowledge that risk factors could differ across sub-types. Important to consider in the future -- overall
+Exploratory data analysis also led us to decide to not focus on subtypes of gun violence, including mass shootings and domestic violence. We acknowledge that risk factors could differ across subtypes, but decided that this analysis required too much depth that was outside of the scope of our project.
 
-Preliminary maps were made with ggmap showing a gradient of gun law strength as well as the categorical grades.
+Many maps were made during exploratory data analysis, including various ggmap plots that used categorical grades for law strength and a bubble map that summarized the number of gun violence incidents by state. These were ultimately excluded for brevity and because of the higher descriptive power of our other maps.
+
+Below are two tables that summarize many of the numerical variables and categorical variables that are used throughout our report.
 
 ##### Numerical variables
 
@@ -408,8 +410,6 @@ skimr::skim(gun_control) %>%
 | state        | character |       900|      0|   14|    4|        0|  900|         50|       NA|
 | state\_abb.x | character |       900|      0|    2|    2|        0|  900|         50|       NA|
 | state\_abb.y | character |       900|      0|    2|    2|        0|  900|         50|       NA|
-
-As we can see, the dataset has no missing data. All the information, including population statistics, background check / applications statistics, approved licensees statistics, are generalized for different states (except for D.C.).
 
 Regression Analyses
 -------------------
@@ -801,3 +801,9 @@ Four-predictor model (disability, smoking, unemployment rate, law strength) seem
 
 Conclusion
 ----------
+
+Gun violence is the product of complex social factors. From our linear regression model, the mortality rate due to gun violence is best predicted by law strength, the unemployment rate, smoking and disability status. However, future gun violence policies should by no means be limited by these variables. While gun violence is a national phenomenon, it is also inextricably local and requires policies and solutions that fit in a given local context.
+
+We do, however, see some overarching trends from our analysis. For one, laws matter. State-level law strength in both visualizations and regression analyses proved to be associated with the mortality rate due to gun violence in a given state. This highlights that legislation is an important lever for changing gun violence in America. Another important feature of our analyses is that gun violence is not spread equally throughout the population. Certain areas seem magnetized for gun violence, but also certain populations are disproportionately affected by gun violence. Marginalized communities (e.g. Black Americans and American Indians/Alaska Natives) seem to bear the brunt of the burden, and because of this it is important to include these communities in the discussion and formation of policies.
+
+Ultimately, gun violence has reached every corner of America. There are growing efforts to tackle gun reform as seen by the largely attended March For Our Lives demonstration in March of 2018. We hope that our project can be a piece of this movement and the gun reform puzzle.
