@@ -45,7 +45,7 @@ Questions to address in the project include:
 Data Sources and Cleaning Methods
 ---------------------------------
 
-Data from five sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
+Data from six sources were considered for this project. The data sources, scraping methods and cleaning procedures for each dataset are described below.
 
 -   The Github repository for this project can be found [here](https://github.com/ChristineLong/p8105_Final_Project).
 
