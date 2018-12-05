@@ -502,7 +502,7 @@ prop_data %>%
 
 ### Section 2: Firearms Mortality (Shiny Dashboard)
 
-Section 2 explores changes in the crude firearm mortality, law strength and unemployment rates across the United States over time. This section is housed in a Shiny Dashboard to enable users to toggle between different variables and years. This section pulls data from the **Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, and **Dataset 5: Unemployment data** sources.
+Section 2 explores changes in the crude firearm mortality, law strength and unemployment rates across the United States over time. This section is housed in a Shiny Dashboard to enable users to toggle between different variables and years. This section pulls data from the **Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, **Dataset 5: Unemployment data**, and **Dataset 6: U.S. Chronic Disease Indicators (CDI)** sources.
 
 The source code for the Shiny dashboard is available to review [online](https://zanis-shiny.shinyapps.io/shiny_states/).
 
@@ -595,6 +595,8 @@ As we can see in the plot,
 ### Section 4: Regression Analyses
 
 The results from the regression analyses are presented below. The goal of this section was to combine our data resources and examine the following candidate predictors for the outcome of crude death rate for each state (focusing on 2016): law strength, unemployment rate, sleep time, smoking, self-reported health, overweight, population, poverty, mental health, leisure physical activity, drinking, disability and diabetes for each state.
+
+This section pulls from data combined in the *merged\_data* dataset above (**Dataset 2: CDC Firearm Mortality Data**, **Dataset 3: Gun Law Strength and State Scoring**, **Dataset 5: Unemployment data**, and **Dataset 6: U.S. Chronic Disease Indicators (CDI)** sources).
 
 #### Correlation Matrix
 
