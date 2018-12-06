@@ -457,6 +457,24 @@ The two main elements of the Shiny Dashboard are described below:
 #### Crude Death Rate Map (2000-2016) for each state
 The Crude Death Rate map allows users to toggle between different years (2000-2016), demonstrating the changes in variables over time and visualize regional differences across the U.S. The map includes visualization of distributions of the following variables: `unemployment rate`, `crude rate`, `deaths`, `population`, `law strength (2016 only)`, `smoking`, `disability`, `self reported health`, `drinking`, `leisure physical activities`, `overweight`, `poverty`, `diabetes`, `mental health`, and `sleep`. 
 
+**Crude Rate**: Firearm Mortality Rate (number of deaths per 100,000), 2001-2016.
+
+**Death**: Number of firearm caused deaths each state each year, 2001-2016.
+
+**Sleep**: Darker means better sleep quality, 2013, 2014, 2016.
+
+**Mental Health**: The darker the worse mental healthness, 2011-2016.
+
+**Leisure Physical Activities**: The darker the longer leisure activities, 2011-2016.
+
+**Self Reported Health**: The darker the better self-rated health, 2011-2016.
+
+**Law Strength**: The darker the higher law strength, 2016 only.
+
+**Other variables**: The darker the higher in number / higher in rate / more severe in conditions, 2011-2016.
+
+All missing values are filled with data from year 2016.
+
 The map demonstrates that there are significant changes over time in all variables. 
 
 #### Crude Firearm Death Rate Across All States by Age Group and Race
