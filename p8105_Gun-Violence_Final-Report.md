@@ -1,7 +1,7 @@
-Exploring Gun Violence Trends in the United States
+Gun Violence in the United States: Mapping and Exploring Gun Violence and Gun Climate in the U.S.
 ================
 Yuelin Long (yl3181), Marisa Sobel (ms5533), Eileen Shea (eas2297), Zanis Fang (zf2213), Devon Morgan (dm3175)
-12/3/2018
+12/6/2018
 
 Motivation
 ----------
@@ -414,7 +414,7 @@ skimr::skim(gun_control) %>%
 Regression Analyses
 -------------------
 
-Data from several sources were joined together into a merged dataset. We use 2016 year to build the model. Main outcome is crude death rate for each state, candidate predictors are law strength, unemployment rate, sleep time, smoking, self-reported health, overweight, population, poverty, mental health, leisure physical activity, drinking, disability and diabetes for each state. Two models were generated using criteria-based model selection and stepwise regression. Models were compared by BIC, adjusted R square, Cp, etc. Models were examined by distribution of residuals (QQ plot, residuals vs fitted value), outliers. We also used cross-validation to compare the two models.
+Data from several sources were joined together into a merged dataset. We used 2016 year to build the model. Main outcome is crude death rate for each state, candidate predictors are law strength, unemployment rate, sleep time, smoking, self-reported health, overweight, population, poverty, mental health, leisure physical activity, drinking, disability and diabetes for each state. Two models were generated using criteria-based model selection and stepwise regression. Models were compared by BIC, adjusted R square, Cp, etc. Models were examined by distribution of residuals (QQ plot, residuals vs fitted value), outliers. We also used cross-validation to compare the two models.
 
 Discussion and Results
 ----------------------
